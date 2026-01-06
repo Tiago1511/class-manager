@@ -1,0 +1,58 @@
+Exam: Biology Test
+Code: BIO1
+TotalMarks: 200
+PassingMarks: 100
+Duration: 90 minutes
+
+
+Section: Cell Biology
+Marks: 80
+Questions:
+
+Question Type: Multiple Choice
+Marks: 20
+1. What is the basic unit of life?
+a. Cell
+b. Atom
+c. Organ
+d. Molecule
+Correct Answer: a
+
+Question Type: Boolean
+Marks: 20
+2. True or False: Plant cells have a cell wall.
+Correct Answer: True
+
+Question Type: Text Answer
+Marks: 40
+3. Describe the function of mitochondria.
+Correct Answer: Mitochondria are responsible for producing energy in the form of ATP through cellular respiration.
+
+
+Section: Genetics
+Marks: 60
+Questions:
+
+Question Type: Text Answer
+Marks: 30
+1. What is the term for the passing of traits from parents to offspring?
+Correct Answer: Heredity
+
+Question Type: Boolean
+Marks: 30
+2. True or False: DNA stands for Deoxyribonucleic acid.
+Correct Answer: True
+
+Section: Ecology
+Marks: 60
+Questions:
+
+Question Type: Text Answer
+Marks: 40
+1. What is the primary source of energy for most ecosystems?
+Correct Answer: Sunlight
+
+Question Type: Boolean
+Marks: 20
+2. True or False: Recycling is an example of sustainable environmental practice.
+Correct Answer: True

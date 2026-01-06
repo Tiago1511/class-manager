@@ -1,0 +1,33 @@
+Exam: Computer Science Quiz
+TotalMarks: 100
+PassingMarks: 60
+Duration: 60 minutes
+
+Section: General Knowledge
+Marks: 20
+Questions:
+1. What is the capital of France?
+   a. London
+   b. Paris
+   c. Madrid
+   d. Rome
+
+2. Who is the inventor of the World Wide Web?
+   a. Tim Berners-Lee
+   b. Bill Gates
+   c. Mark Zuckerberg
+   d. Steve Jobs
+
+Section: Programming Concepts
+Marks: 40
+Questions:
+1. What is the output of the following code?
+
+   ```java
+   public class Main {
+       public static void main(String[] args) {
+           int x = 5;
+           x++;
+           System.out.println(x);
+       }
+   }

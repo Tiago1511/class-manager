@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor manager
+participant OpenCourseUI <<presentation>>
+participant OpenCourseController << application >>
+participant Course <<domain>>
+database    CourseRepository<<repository>>
+
+activate manager
+activate OpenCourseUI
+manager -> OpenCourseUI : Enters course open menu
+
+opt
+
+OpenCourseUI -> manager : Choose the course to open
+
+deactivate OpenCourseUI
+
+manager -> OpenCourseUI : Provide the course open
+activate OpenCourseUI
+activate OpenCourseController
+OpenCourseUI -> OpenCourseController : openCourse(Course)
+OpenCourseController -> Course : status(Status.OPEN)
+OpenCourseController -> CourseRepository : save(Course)
+OpenCourseController -> OpenCourseUI : Course opened
+deactivate OpenCourseController
+OpenCourseUI -> manager : Changed state
+
+deactivate OpenCourseController
+deactivate OpenCourseUI
+
+
+
+end
+deactivate manager
+
+@enduml

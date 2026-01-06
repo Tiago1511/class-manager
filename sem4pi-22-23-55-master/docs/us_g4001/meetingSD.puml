@@ -1,0 +1,117 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+Actor "User" as User
+participant "ScheduleMeetingUI <<presentation>>" as CUI
+participant "ScheduleMeetingController <<application>>" as CTRL
+participant "PersistenceContext <<persistence>>" as PER
+participant "RepositoryFactory <<factory>>" as REP
+participant "Meeting <<domain>>" as CLASS
+database "MeetingRepository<<repository>>" as CREP
+database "SystemUserRepository<<repository>>" as CREP1
+
+activate User
+
+    User -> CUI : asks to schedule a meeting
+
+    activate CUI
+
+        CUI -> CTRL : scheduleMeeting
+
+
+
+
+
+
+
+
+            activate CTRL
+
+                CTRL -> PER : repositories()
+
+                activate PER
+
+                    PER -> REP : create
+
+                    activate REP
+
+                        REP -> CREP : create
+
+                    deactivate REP
+
+                    PER --> CTRL : MeetingRepository
+
+                   deactivate CTRL
+
+                deactivate PER
+
+
+                CUI -> User : asks to insert date
+
+
+                User -> CTRL: inserts date
+                activate CTRL
+
+
+
+                CTRL -> CLASS: newMeeting(date)
+                activate CLASS
+
+
+                CUI -> User: asks to insert initial time
+
+
+                User -> CTRL: inserts initial time
+
+                CTRL -> CLASS: newMeeting(time)
+
+                CUI -> User: asks to insert duration
+
+
+                User -> CTRL: inserts duration
+
+                CTRL -> CLASS: newMeeting(duration)
+
+
+                CUI -> User: asks if user wants to incert participants
+
+
+                User -> CUI: inserts "y"
+
+
+                CUI -> User: asks the participant ID
+
+
+                User -> CTRL: inserts participant ID
+
+                CTRL -> CLASS: newMeeting(participant)
+                deactivate CTRL
+
+                CLASS -> CREP1: participantList
+                deactivate CLASS
+
+                CUI -> User: asks if user wants to incert more participants
+
+
+                User -> CTRL: inserts "n"
+                activate CTRL
+
+                CUI -> User: meeting scheduled
+                deactivate CUI
+
+
+
+
+                CTRL -> CLASS : newMeeting = create(data)
+
+
+                CTRL -> CREP : save(newMeeting)
+                deactivate CTRL
+
+
+
+deactivate User
+
+@enduml

@@ -1,0 +1,9 @@
+Type: correspondencia
+Question: Which animal matches the following characteristics?
+Option:
+a -> Lion,
+b -> Elephant,
+c -> Giraffe,
+d -> Rhino
+Solution: b
+

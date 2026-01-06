@@ -1,0 +1,68 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+Actor "Teacher" as Teacher
+participant "ClassUI <<presentation>>" as CUI
+participant "ScheduleExtraClassUI <<presentation>>" as UI
+participant "ExtraClassCreatorController <<application>>" as CTRL
+participant "PersistenceContext <<persistence>>" as PER
+participant "RepositoryFactory <<factory>>" as REP
+participant "ClassExtra <<domain>>" as CLASS
+database "ClassRepository<<repository>>" as CREP
+
+activate Teacher
+
+    Teacher -> CUI : asks to schedule an extra class
+
+    activate CUI
+
+        CUI -> UI : scheduleExtraClass
+
+        activate UI
+
+            UI -> CTRL** : create
+
+            activate CTRL
+
+                CTRL -> PER : repositories()
+
+                activate PER
+
+                    PER -> REP : create
+
+                    activate REP
+
+                        REP -> CREP : create
+
+                    deactivate REP
+
+                    PER --> CTRL : ClassRepository
+
+                deactivate PER
+
+            deactivate CTRL
+
+        UI --> Teacher : asks data for class
+
+        deactivate UI
+
+        Teacher -> UI : gives class data
+
+        activate UI
+
+            UI -> CTRL : registerClass(data)
+
+            activate CTRL
+
+                CTRL -> CLASS** : newClass = create(data)
+                CTRL -> CREP : save(newClass)
+
+            deactivate CTRL
+
+        deactivate UI
+
+deactivate Teacher
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+actor User
+participant System
+
+activate User
+User -> System: Login
+activate System
+System -> User: Login success
+deactivate System
+User -> System: Choose option to archive a board
+activate System
+System -> User: Request board id to archive
+deactivate System
+User -> System: Enter board id to archive
+activate System
+System -> User: Shows success message
+
+
+deactivate User
+
+@enduml

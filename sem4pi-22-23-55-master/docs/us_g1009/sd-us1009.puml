@@ -1,0 +1,36 @@
+@startuml
+actor Manager
+participant ManageEnrollmentRequestsUI
+participant EnrollmentRequestRepository
+participant ManageEnrollmentRequestsController
+participant EnrollmentRequest
+
+Manager -> ManageEnrollmentRequestsUI: Asks to enroll students
+ManageEnrollmentRequestsUI -> EnrollmentRequestRepository: pendingRequests()
+EnrollmentRequestRepository --> ManageEnrollmentRequestsUI: pendingRequests
+alt pendingRequests is empty
+    ManageEnrollmentRequestsUI -> Manager: Informs that are no pending requests
+else enrollCoursesList is not empty
+    ManageEnrollmentRequestsUI -> Manager: Displays a list of all the pending enrollment requests \nand asks to choose an option
+
+    Manager --> ManageEnrollmentRequestsUI: Inserts option
+    alt option is invalid
+        ManageEnrollmentRequestsUI -> Manager: Informs that option is invalid.
+    else option is valid
+        ManageEnrollmentRequestsUI->Manager:Asks if the manager wants to accept or reject the request
+        Manager->ManageEnrollmentRequestsUI: Inserts option
+        alt option is to accept request
+        ManageEnrollmentRequestsUI -> ManageEnrollmentRequestsController: acceptRequest(enrollmentRequest)
+        ManageEnrollmentRequestsController->EnrollmentRequest: status("Accepted")
+        EnrollmentRequest->ERStatus
+        ManageEnrollmentRequestsController->EnrollmentRequestRepository: save(enrollmentRequest)
+        ManageEnrollmentRequestsUI -> Manager: Confirms operation's success
+        else option is to reject request
+        ManageEnrollmentRequestsUI -> ManageEnrollmentRequestsController: rejectRequest(enrollmentRequest)
+                ManageEnrollmentRequestsController->EnrollmentRequest: status("Rejected")
+                EnrollmentRequest->ERStatus
+                ManageEnrollmentRequestsController->EnrollmentRequestRepository: save(enrollmentRequest)
+                ManageEnrollmentRequestsUI -> Manager: Confirms operation's success
+    end
+end
+@enduml

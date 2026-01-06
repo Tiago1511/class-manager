@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+
+class Board <<domain>>
+class ArchiveBoardController <<application>>
+interface RepositoryFactory<<factory>>
+interface BoardRepository<<repository>>
+class ArchiveBoardUI<<presentation>>
+class PersistenceContext <<persistence>>
+
+ArchiveBoardUI ---> ArchiveBoardController
+
+ArchiveBoardController ---> ArchiveBoardUI
+ArchiveBoardController ---> PersistenceContext
+
+PersistenceContext --> RepositoryFactory
+
+Board <-- ArchiveBoardController
+Board --> BoardRepository
+
+ArchiveBoardController ---> BoardRepository
+
+BoardRepository ---> RepositoryFactory
+
+
+
+@enduml

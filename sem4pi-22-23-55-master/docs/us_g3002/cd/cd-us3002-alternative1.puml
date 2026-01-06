@@ -1,0 +1,35 @@
+
+@startuml
+
+    class CreateBoardAction {
+        execute()
+    }
+
+    class CreateBoardUI {
+        +createBoard()
+        +displayBoardScheme()
+    }
+
+    class Board {
+        -String title
+        -List<Row> rows
+
+    }
+
+    class Row {
+        -String rowTitle
+        - List<Column> columns
+
+    }
+
+    class Column {
+        -String columnTitle
+    }
+
+    CreateBoardAction --> CreateBoardUI
+    CreateBoardUI --> Board
+    CreateBoardUI --> Row
+    CreateBoardUI --> Column
+    Board "1" -- "*" Row
+    Row "1" -- "*" Column
+@enduml

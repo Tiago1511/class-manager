@@ -1,0 +1,57 @@
+@startuml
+
+class ListMeetingsActionUI {
++ headline()
+# doShow()
+- choose()
+- listMeetingsCreated(SystemUser)
+- listMeetingsGuest(SystemUser
+}
+
+class ListMeetingsController {
++ listMeetings(SystemUser)
++ meetig(SystemUser)
++ meetigs(SystemUser)
+}
+
+class ListMeetingsService {
++ overlap(Meeting, SystemUser)
++ myMeetings(SystemUser)
++ myMeetingsPending(SystemUser)
++myMeetingsAndOpened(SystemUser systemUser)
++myMeetingsCreatedAndOpened(SystemUser systemUser)
+}
+
+interface MeetingsRepository {
++ cancelled()
++ findByMyMeetingsCreatedAndOpened(SystemUser)
++ findByMyMeetingsAndOpened(SystemUser)
++ findByMyMeetingsPending(SystemUser)
++ findByMyMeetingsPendingHours(SystemUser, Calendar, LocalTime, LocalTime)
++ findByMyMeetings(SystemUser)
+}
+
+class Meetings {
+- id
+- date
+- startTime
+- endTime
+- Set<Invite> invite
+- cancelled
+- SystemUser
++ sameAS(Meeting)
++ identity()
++ equals(Meeting)
++ hasIdentity(id)
++ cancelMeeting()
++ aceptRejectMeeting(InviteStatus, SystemUser)
++ listGuest()
+}
+
+ListMeetingsActionUI --> ListMeetingsController
+ListMeetingsController --> ListMeetingsService
+ListMeetingsService --> MeetingsRepository
+ListMeetingsController --> Meetings
+ListMeetingsController --> MeetingsRepository
+
+@enduml

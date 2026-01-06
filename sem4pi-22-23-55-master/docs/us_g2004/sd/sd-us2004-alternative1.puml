@@ -1,0 +1,75 @@
+@startuml
+
+
+actor Student as Actor
+participant ExamRealizationUI as gUI <<presentation>>
+participant ExamRealizationController as gCTRL <<application>>
+
+participant PersistenceContext as Persistence <<Persistence>>
+participant RepositoryFactory as Factory <<factory>>
+
+
+
+database CourseRepository  <<repository>>
+database ExamRepository <<repository>>
+database GradeRepository <<repository>>
+
+participant AppSettings as app
+
+Activate Actor
+Actor -> gUI: register User
+
+activate gUI
+
+gUI -> gCTRL: create
+
+gUI->gCTRL: getUserCourses()
+
+gCTRL -> Persistence: repositories()
+activate Persistence
+
+Persistence -> Factory: create
+
+
+
+Persistence-->gCTRL: factory()
+deactivate Persistence
+
+gCTRL->CourseRepository: findAll()
+
+gCTRL-->gUI: studentCourseList
+
+gUI -->Actor: shows courses and asks to select
+
+Actor -->gUI: selects course
+
+gUI--> gCTRL: studentsGrades(course)
+
+gCTRL->ExamRepository: findAll()
+
+gCTRL-->gUI: examsList
+
+gUI -->Actor: shows exams and asks to select
+
+Actor-->gUI: selects exam
+
+gUI-->gCTRL: examRealization(exam)
+
+gCTRL-->Evalvisitor: visit(exam)
+
+Evalvisitor-->Grade: new Grade(student,score,exam)
+
+Grade-->Evalvisitor: grade
+
+Evalvisitor-->gCTRL: grade
+
+gCTRL-->GradeRepository: save(grade)
+
+gCTRL-->gUI: grade
+
+gUI-->Actor: prints grade
+
+
+
+
+@enduml

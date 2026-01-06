@@ -1,0 +1,52 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+Actor "Teacher" as Teacher
+participant "ClassUI <<presentation>>" as CUI
+participant "UpdateClassUI <<presentation>>" as UI
+participant "UpdateClassController <<application>>" as CTRL
+participant "PersistenceContext <<persistence>>" as PER
+participant "RepositoryFactory <<factory>>" as REP
+participant "Class <<domain>>" as CLASS
+database "ClassRepository<<repository>>" as CREP
+
+activate Teacher
+
+    Teacher -> CUI : asks to update schedule an extra class
+
+    activate CUI
+
+        CUI -> UI : updateClass
+
+        activate UI
+
+            UI -> CTRL** : update
+
+            activate CTRL
+
+                UI --> Teacher : asks data for class
+
+                        deactivate UI
+
+                        Teacher -> UI : gives class data
+
+                        activate UI
+
+                            UI -> CTRL : update(data)
+
+                                CTRL -> CREP: class = update(data)
+                                CTRL -> CREP : save(class)
+
+                            deactivate CTRL
+
+                        deactivate UI
+
+                deactivate Teacher
+
+
+
+
+
+@enduml

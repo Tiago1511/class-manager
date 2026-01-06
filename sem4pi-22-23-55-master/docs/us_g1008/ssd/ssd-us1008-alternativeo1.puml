@@ -1,0 +1,13 @@
+@startuml
+
+    participant Student
+    participant System
+
+
+    Student -> System: Asks to view a list of courses available to enroll
+    System -> Student: Asks for the student's mecanographic number
+    Student-> System: Inserts his mecanographic number
+    System -> Student: Displays the requested list of courses
+    Student -> System: Chooses one course to enroll
+    System -> Student: Confirms operation's success
+@enduml

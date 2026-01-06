@@ -1,0 +1,26 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+actor user
+participant System
+
+activate user
+activate System
+
+user -> System: asks to take an exam
+
+System --> user: shows the exam
+
+deactivate System
+
+user -> System: answers the exam
+
+activate System
+
+System --> user: grades the exam and gives feedback
+
+deactivate System
+deactivate user
+
+@enduml

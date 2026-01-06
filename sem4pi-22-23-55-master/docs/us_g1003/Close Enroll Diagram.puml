@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor manager
+participant CloseEnrollmentCourseUI <<presentation>>
+participant CloseEnrollmentCourseController << application >>
+participant Course <<domain>>
+database    CourseRepository<<repository>>
+
+activate manager
+activate CloseEnrollmentCourseUI
+manager -> CloseEnrollmentCourseUI : Enter the menu to close course registration
+
+opt
+
+CloseEnrollmentCourseUI -> manager : Choose the course to close registration
+
+deactivate CloseEnrollmentCourseUI
+
+manager -> CloseEnrollmentCourseUI : Provide the course close registration
+activate CloseEnrollmentCourseUI
+activate CloseEnrollmentCourseController
+CloseEnrollmentCourseUI -> CloseEnrollmentCourseController : closeEnrollment(Course)
+CloseEnrollmentCourseController -> Course : status(Status.PROGRESS)
+CloseEnrollmentCourseController -> CourseRepository : save(Course)
+CloseEnrollmentCourseController -> CloseEnrollmentCourseUI : Course status changed
+deactivate CloseEnrollmentCourseController
+CloseEnrollmentCourseUI -> manager : Changed state
+
+deactivate CloseEnrollmentCourseController
+deactivate CloseEnrollmentCourseUI
+
+
+
+end
+deactivate manager
+
+@enduml

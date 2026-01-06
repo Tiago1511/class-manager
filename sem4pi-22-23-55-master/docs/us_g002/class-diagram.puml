@@ -1,0 +1,130 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Student{
+
+}
+
+class Teacher{
+
+}
+
+class TeacherInCharge{
+
+}
+
+class Manager{
+
+}
+
+class User{
+
+}
+
+class Course{
+
+}
+
+class Exam{
+
+}
+
+class Section{
+}
+
+class Question{
+}
+
+class TrueFalse{
+}
+
+class Meeting{
+}
+
+class Event{
+
+}
+
+class Class{
+}
+
+class Meeting{
+}
+
+class Board{
+
+}
+
+class Column{
+}
+
+class Row{
+}
+
+class ExamsAnswered{
+}
+
+class PostIt{
+id
+version
+date
+}
+
+class Enumerate{
+}
+
+class Matching{
+}
+
+class MultipleChoice{
+}
+
+class ShortAnswer {
+}
+
+class Numerical{
+}
+
+class SelectMissingWord{
+}
+
+class True/False{
+}
+
+
+User <|-down- Student
+User <|-- Teacher
+Events <|-- Meeting
+Events <|-- Class
+Exam "1" -- "1" ExamsAnswered
+User <|-- Manager
+Manager "1" --- "*" Course: creates >
+Student "*"--up--o "1..*"Course :enrolls >
+Course "1"-- "*" Exam :has >
+User"1"  ---  "*" Events  :  manages  >
+note "Student can only attend classes" as N1
+User .. N1
+Events .up. N1
+Course"1" --- "*"Class : has >
+Student "*"--- "*"Exam : takes >
+Teacher"*" --o "1..*"Course : lectures >
+Teacher"1" ----"*" Exam : creates >
+Board "*"-up-- "*"User : manages <
+Board "1" *-down- "*" Cell : has >
+PostIt"*" -up-"1" Cell: has <
+Cell "1" -up- "1" Row : has >
+Cell "1" -up- "1" Column : has >
+'BoardHistory "1" -- "1" Board : has <'
+ExamsAnswered "*" -- "1" Student: belongs to >
+Teacher "1" -- "*" Course : can be Head Teacher >
+Exam "1" ---down> "1..*" Section : has >
+Section "1" ---down> "1..*" Question : has >
+Question <|-- TrueFalse
+Question <|-- Enumerate
+Question <|-- Matching
+Question <|-- ShortAnswer
+Question <|-- Numerical
+Question <|-- SelectMissingWord
+
+hide @unlinked
+@enduml

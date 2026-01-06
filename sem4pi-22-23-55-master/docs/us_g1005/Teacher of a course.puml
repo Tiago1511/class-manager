@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor manager
+participant AddTeacherUI <<presentation>>
+participant AddTeacherControlller <<controller>>
+participant CourseBuilder <<domain>>
+participant Course <<domain>>
+database CourseRepository <<repository>>
+
+activate manager
+
+manager -> AddTeacherUI: Enter the add professors menu in the course
+
+activate AddTeacherUI
+
+opt
+AddTeacherUI -> manager: Choose the course
+
+AddTeacherUI -> AddTeacherControlller: Show the courses
+activate AddTeacherControlller
+AddTeacherControlller -> CourseRepository: findAll()
+
+AddTeacherControlller -> AddTeacherUI: List<Course>
+deactivate AddTeacherControlller
+AddTeacherUI -> manager: List course
+deactivate AddTeacherUI
+
+manager -> AddTeacherUI: Provide the course
+activate AddTeacherUI
+loop While manager wants to add teacher
+AddTeacherUI -> manager: Choose the teachers
+manager -> AddTeacherUI: Provide the teachers
+end
+
+AddTeacherUI -> AddTeacherControlller: Add the teachers to the course
+
+activate AddTeacherControlller
+activate CourseBuilder
+AddTeacherControlller -> CourseBuilder:new CourseBuilder().ofType(teacher).code(code).title(title).description(description).capacity(Capacity).status(Status).teacher(teachers).build()
+
+CourseBuilder -> Course : new Course(title, code, description, capacity, status, headTeacher, teacher)
+
+deactivate CourseBuilder
+AddTeacherControlller -> CourseRepository: save(course)
+AddTeacherControlller -> AddTeacherUI: Teachers successfully added
+AddTeacherUI -> manager: Teachers successfully added
+
+deactivate AddTeacherControlller
+deactivate AddTeacherUI
+end
+
+
+deactivate manager
+@enduml

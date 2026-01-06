@@ -1,0 +1,22 @@
+@startuml
+actor manager
+participant System
+
+activate manager
+activate System
+manager -> System: login
+System -> manager: login success
+deactivate System
+manager -> System: choose open/close course option
+
+activate System
+System -> manager: list courses
+manager -> System: choose a course
+loop while choosing teachers
+System -> manager: list teachers
+manager -> System: choose a teacher
+end
+System -> manager: teachers added
+deactivate System
+deactivate manager
+@enduml

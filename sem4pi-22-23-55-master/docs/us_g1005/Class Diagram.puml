@@ -1,0 +1,67 @@
+@startuml
+
+class AddTeacherUI {
++ headline()
+# doShow()
+-selectTeacher()
+}
+
+class AddTeacherController {
++ addTeacherCourse(CourseDTO, teachers)
++teachers()
++teachersDTO(CourseDTO)
++course()
+}
+
+class ListTeacherService {
++transformToDTO(Teacher)
++allTeachers()
++teacher(acronym)
+}
+
+interface CourseRepository {
+closeCourses()
+progressCourses()
+openCourses()
+enrollCourses()
+}
+
+interface TeacherRepository{
+}
+
+class CourseBuilder {
+-buildOrThrow()
++ofType(teacher)
++capacity (capacity)
++status (status)
++title (title)
++code (code)
++description ( description)
++teacher (teacher)
++build()
+}
+
+class Course {
+-code
+-title
+-description
+-teacher
+-headTeacher
+-status
++sameAs(Object)
++equals(Object)
++hashCode()
++identity()
++toDTO()
++status(Status)
++title()
+}
+
+
+AddTeacherUI --> AddTeacherController
+AddTeacherController ..> CourseRepository
+AddTeacherController ..> ListTeacherService
+ListTeacherService ..> TeacherRepository
+AddTeacherController --> CourseBuilder
+CourseBuilder --> Course
+@enduml

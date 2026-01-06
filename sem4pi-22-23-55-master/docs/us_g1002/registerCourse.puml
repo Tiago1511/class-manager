@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+Actor Manager as ma
+participant RegisterCourseUI as ui  <<presentation>>
+participant RegisterCourseController as ctrl <<application>>
+participant CourseParser
+participant CourseBuilder <<domain>>
+participant Course <<domain>>
+participant ListTeacherService <<service>>
+database CourseRepository<<repository>>
+database TeacherRepository<<repository>>
+
+activate ma
+ma -> ui : Enters course registration menu
+
+activate ui
+ui -> ma: Requests new course's required information
+
+ui -> ctrl: teacher()
+activate ctrl
+ctrl -> ListTeacherService : teachers()
+
+
+activate ListTeacherService
+ListTeacherService -> TeacherRepository : findAll()
+activate TeacherRepository
+
+ctrl -> ui: List<Teacher>
+
+deactivate TeacherRepository
+deactivate ListTeacherService
+deactivate ctrl
+ui -> ma: ListTeacher()
+deactivate ui
+
+ma -> ui: Provides the course's info
+activate ui
+
+ui -> ctrl: registerNewCourse(courseInfo)
+activate ctrl
+
+ctrl -> CourseParser: newCourse = new CourseDTOParser().valueOf();
+
+activate CourseParser
+CourseParser -> CourseBuilder: newCourse = new CourseBuilder().ofType(teacher).code(dto.code).title(dto.title).description(dto.description).capacity(new Capacity(dto.minCapacity, dto.maxCapacity)).status(Status.valueOf(dto.status)).build()
+deactivate CourseParser
+
+activate CourseBuilder
+CourseBuilder -> Course: newCourse = new Course(teacher, dto.code, dto.title, dto.description, new Capacity(dto.minCapacity, dto.maxCapacity), Status.valueOf(dto.status))
+deactivate CourseBuilder
+
+activate CourseRepository
+ctrl -> CourseRepository: save(newCourse)
+
+deactivate CourseRepository
+
+ctrl -> ui: Course registered successfully
+ui -> ma : menu
+deactivate ctrl
+deactivate ma
+@enduml

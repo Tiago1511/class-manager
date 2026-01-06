@@ -1,0 +1,8 @@
+Type: Escolha Multipla
+Question: Pergunta de escolha multipla.
+Option:
+a -> Opcao a
+b -> Opcao b
+c -> Opcao c
+d -> Opcao d
+Solution: b

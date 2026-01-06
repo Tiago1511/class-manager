@@ -1,0 +1,60 @@
+@startuml
+actor User
+participant ShareBoardUI as ui
+participant ShareBoardController as c
+participant Board as b
+participant BoardRepository as brep
+participant StudentRepository as srep
+participant TeacherRepository as trep
+participant ManagerRepository as mrep
+
+
+User->ui: Asks to share a board
+
+ui->c:selectedBoard()
+c->ui: Board board
+
+ui->User: Displays a list of the boards owned by the user and asks to choose one
+User->ui:Selects one
+ui -> User : Displays a list of types of user and asks to insert option
+User-> ui : Selects the type of user
+alt user is manager
+ui->c: managerShare(board)
+c->mrep: findAll()
+mrep->c: Iterable<Manager> managers
+c->User : Displays all existent users of the selected type
+User->c: Chooses one user
+c->board:addUser(user)
+c->brep:save(board)
+c->User:Confirms operation's success
+else user is teacher
+ui->c: teacherShare(board)
+c->trep: findAll()
+trep->c: Iterable<Teacher> teachers
+c->User : Displays all existent users of the selected type
+User->c: Chooses one user
+c->board:addUser(user)
+c->brep:save(board)
+c->User:Confirms operation's success
+else user is student
+ui->c: studentShare(board)
+c->srep: findAll()
+srep->c: Iterable<Student> students
+c->User : Displays all existent users of the selected type
+User->c: Chooses one user
+c->board:addUser(user)
+c->brep:save(board)
+c->User:Confirms operation's success
+end
+
+
+
+
+
+
+
+
+
+
+
+@enduml

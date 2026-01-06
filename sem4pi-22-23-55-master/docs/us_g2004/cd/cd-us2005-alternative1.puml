@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ExamRealizationUI <<application>>
+class Course <<value>>
+class Grade <<value>>
+class Exam <<value>>
+class Student <<value>>
+
+
+class CourseRepository<<repository>>
+class ExamRepository<<repository>>
+class GradeRepository<<repository>>
+
+class ExamRealizationController<<Controller>>
+
+class PersistenceContext <<Persistence>>
+
+class RepositoryFactory<<factory>>
+
+ExamRealizationUI..>ExamRealizationController
+
+ExamRealizationController<.. Grade
+RepositoryFactory<... GradeRepository
+
+ExamRealizationController<.. Course
+RepositoryFactory<... CourseRepository
+
+ExamRealizationController<.. Exam
+RepositoryFactory<... ExamRepository
+
+
+ExamRealizationController<.. PersistenceContext
+
+PersistenceContext<... RepositoryFactory
+
+Grade"1"--"1"Exam: is connected to >
+
+Student"1"--"*"Exam: do >
+
+Exam"*"--"*" Course: has >
+
+CourseRepository.> Course
+ExamRepository.> Exam
+GradeRepository.> Grade
+@enduml

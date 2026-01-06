@@ -1,0 +1,93 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title US1001 System Sequence Diagram (SSD) - Alternative One
+
+autonumber
+
+actor "Manager" as User
+participant ":System" as System
+
+activate User
+
+ User -> System : asks to enter manager menu
+    activate System
+
+    System -> User: shows manager menu interface
+    deactivate System
+loop
+    opt 1
+    User -> System : register an user
+    activate System
+
+
+
+    System -> User: asks type of user \n(teacher/manager/student)
+    deactivate System
+
+    User -> System: selects type of user
+    activate System
+
+    System -> User: asks for details
+    deactivate System
+
+    User -> System: types details
+    activate System
+
+    System -> User: creates the user successfully
+    deactivate System
+
+
+    deactivate System
+    end opt
+
+    alt 2
+    System -> User: show list of users
+    activate System
+    User -> System: selects user
+
+
+    System -> User: shows operation success
+    deactivate System
+
+    deactivate System
+    end alt
+
+
+alt 3
+
+System -> User: shows list of parameters and\n asks parameter to be sort on
+activate System
+User -> System: selects parameter
+
+System -> User: asks sorting order \n(ascending/descending)
+
+User -> System: selects sorting order
+
+System -> User: shows menu to disable/enable user
+
+User -> System: selects option
+
+System -> User: shows operation success
+deactivate System
+
+end alt
+
+
+    alt 4
+    User -> System : exit manager menu
+    activate System
+
+    System -> User : exits to system menu
+    deactivate System
+    end opt
+
+
+
+
+
+end loop
+
+@enduml

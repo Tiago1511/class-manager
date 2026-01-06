@@ -1,0 +1,116 @@
+@startuml
+
+class RegisterUserUI <<presentation>> {}
+
+class RegisterStudentUI <<presentation>>{}
+
+class RegisterTeacherUI <<presentation>>{}
+
+class RegisterManagerUI <<presentation>>{}
+
+class RegisterUserController<<application>>
+
+class RegisterStudentController<<application>>
+
+class RegisterTeacherController<<application>>
+
+class RegisterManagerController<<application>>
+
+class PersistenceContext <<Persistence>>
+
+class RepositoryFactory<<factory>>
+
+class DeactivateUserUI <<presentation>>
+
+class DeactivateUserController <<application>>
+
+class ListUsersUI <<presentation>>
+
+class ListUsersController <<application>>
+
+
+class UserRepository <<repository>>
+
+class RoleRepository <<repository>>
+
+class StudentRepository <<repository>>
+
+class TeacherRepository <<repository>>
+
+class ManagerRepository <<repository>>
+
+class Student
+
+class MecanograficNumber
+
+class TaxNumber
+
+class Manager
+
+class Teacher
+
+class Acronym
+
+
+RegisterUserUI <.. RegisterTeacherUI
+RegisterUserUI<.. RegisterStudentUI
+RegisterUserUI<.. RegisterManagerUI
+
+RegisterUserUI<.. DeactivateUserUI
+DeactivateUserUI<.. DeactivateUserController
+DeactivateUserController<.. UserRepository
+
+RegisterUserUI<.. ListUsersUI
+ListUsersUI<.. ListUsersController
+ListUsersController<.. UserRepository
+
+RegisterUserUI<.. RegisterUserController
+RegisterUserController<.. UserRepository
+
+
+RegisterTeacherUI<.. RegisterTeacherController
+RegisterTeacherController<.. Teacher
+RegisterTeacherController<.. PersistenceContext
+
+PersistenceContext<.. RepositoryFactory
+RepositoryFactory<.. RoleRepository
+RepositoryFactory<.. UserRepository
+RepositoryFactory<.. TeacherRepository
+
+RegisterTeacherController<.. RoleRepository
+RegisterTeacherController<.. UserRepository
+RegisterTeacherController<.. TeacherRepository
+
+Teacher --> Acronym: has
+Teacher --> TaxNumber: has
+
+
+
+RegisterManagerUI<.. RegisterManagerController
+RegisterManagerController<.. Manager
+RegisterManagerController<.. PersistenceContext
+
+RepositoryFactory<.. ManagerRepository
+
+RegisterManagerController<.. RoleRepository
+RegisterManagerController<.. UserRepository
+RegisterManagerController<.. ManagerRepository
+
+
+
+RegisterStudentUI<.. RegisterStudentController
+RegisterStudentController<.. Student
+RegisterStudentController<.. PersistenceContext
+
+
+RepositoryFactory<.. StudentRepository
+
+RegisterStudentController<.. RoleRepository
+RegisterStudentController<.. UserRepository
+RegisterStudentController<.. StudentRepository
+
+Student <- MecanograficNumber: has
+
+Student <- TaxNumber: has
+
+@enduml

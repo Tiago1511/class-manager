@@ -1,0 +1,69 @@
+@startuml
+
+class OpenCloseEnrollmentsCourseUI {
++ headline()
+# doShow()
+-buildMainMenu()
+}
+
+class OpenEnrollmentCourseUI{
++ headline()
+# doShow()
+}
+
+class CloseEnrollmentCourseUI{
++ headline()
+# doShow()
+}
+
+class OpenEnrollmentCourseController{
++openEnrollmentCourse(course)
+-status()
+}
+
+interface CourseRepository{
+closeCourses()
+progressCourses()
+openCourses()
+enrollCourses()
+}
+
+class CloseEnrollmentCourseController{
++closeEnrollmentCourse(course)
+-status()
+}
+
+class Course {
+-code
+-title
+-description
+-teacher
+-headTeacher
+-status
++sameAs(Object)
++equals(Object)
++hashCode()
++identity()
++toDTO()
++status(Status)
++title()
+}
+
+class Status {
+isClose()
+isProgress()
+openCourses()
+enrollCourses()
+}
+
+OpenCloseEnrollmentsCourseUI ..> OpenEnrollmentCourseUI
+OpenCloseEnrollmentsCourseUI ..> CloseEnrollmentCourseUI
+OpenEnrollmentCourseUI --> OpenEnrollmentCourseController
+CloseEnrollmentCourseUI --> CloseEnrollmentCourseController
+OpenEnrollmentCourseController ..> CourseRepository
+CloseEnrollmentCourseController ..> CourseRepository
+OpenEnrollmentCourseController --> Course
+CloseEnrollmentCourseController --> Course
+Course -- Status
+
+@enduml

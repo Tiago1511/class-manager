@@ -1,0 +1,14 @@
+Section: General Knowledge
+Marks: 8
+Questions:
+1. What is the capital of France?
+   a. London
+   b. Paris
+   c. Madrid
+   d. Rome
+
+2. Who is the inventor of the World Wide Web?
+   a. Tim Berners-Lee
+   b. Bill Gates
+   c. Mark Zuckerberg
+   d. Steve Jobs

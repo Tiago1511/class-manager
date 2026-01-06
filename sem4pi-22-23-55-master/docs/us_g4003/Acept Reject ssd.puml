@@ -1,0 +1,19 @@
+@startuml
+actor user
+participant System
+
+activate user
+activate System
+user -> System: login
+System -> user: login success
+deactivate System
+user -> System: choose option meeting
+activate System
+user -> System: choose option Acept or Reject Meeting
+System -> user: list the meetings
+user -> System: choose meeting
+System -> user: Meeting Acept/Reject Success
+
+deactivate System
+deactivate user
+@enduml

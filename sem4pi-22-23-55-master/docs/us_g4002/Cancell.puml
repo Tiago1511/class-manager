@@ -1,0 +1,50 @@
+@startuml
+Actor User as ma
+participant CancelMeetingUI as ui  <<presentation>>
+participant CancelMeetingController as ctrl <<application>>
+participant Meetings <<domain>>
+participant AuthorizationService <<service>>
+participant ListMeetingsService <<service>>
+database MeetingsRepository<<repository>>
+
+activate ma
+ma -> ui : cancel meeting
+activate ui
+ui -> AuthorizationService : see logged in user
+
+ui ->ctrl : search my meetings
+activate ctrl
+
+
+ctrl -> ListMeetingsService : get my meetings
+
+
+activate ListMeetingsService
+activate MeetingsRepository
+ListMeetingsService -> MeetingsRepository : get my meetings
+MeetingsRepository -> ListMeetingsService : meeting list
+deactivate MeetingsRepository
+ListMeetingsService -> ctrl : meeting list
+deactivate ListMeetingsService
+ctrl -> ui : meeting list
+deactivate ctrl
+ui -> ma : show meeting list
+deactivate ui
+ma -> ui  : choose meeting to cancel
+activate ui
+ui -> ctrl : cancelMeeting(Meetings)
+activate ctrl
+ctrl -> Meetings : cancelMeeting(Meetings)
+activate Meetings
+Meetings -> ctrl : meeting canceled
+deactivate Meetings
+ctrl -> MeetingsRepository : save(Meetings)
+activate MeetingsRepository
+MeetingsRepository -> ctrl : Return Meeting
+deactivate MeetingsRepository
+ctrl -> ui : meeting canceled
+deactivate ctrl
+ui -> ma : meeting canceled
+deactivate ui
+deactivate ma
+@enduml

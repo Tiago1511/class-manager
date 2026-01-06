@@ -1,0 +1,14 @@
+@startuml
+    participant User
+    participant System
+   
+
+    User ->> System: Asks to create a board
+    System->>User: Requests a board title
+    User ->> System: Inserts title
+    System->>User: Requests number of rows
+    User ->> System: Inserts number of rows
+    System->>User: Requests number of columns
+    User ->> System: Inserts number of columns
+    System->>User: Shows board scheme
+@enduml

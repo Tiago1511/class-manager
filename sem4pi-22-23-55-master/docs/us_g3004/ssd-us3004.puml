@@ -1,0 +1,17 @@
+@startuml
+actor User
+participant System
+
+User -> System : Asks to share a board
+System->User: Displays a list of the boards owned by the user and asks to choose one
+User->System:Selects one
+System -> User : Displays a list of types of user and asks to insert option
+User-> System : Selects the type of user
+System->User: Displays all existent users of the selected type
+User->System: Chooses one user
+System->User: Asks to confirm
+User->System:Confirms choice
+System->User:Shares the board with the selected user and confirms operation's success
+
+
+@enduml

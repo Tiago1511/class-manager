@@ -1,0 +1,44 @@
+@startuml
+actor User as u
+participant UndoChangePostItUI as ui
+participant CreatePostItController as ctrl
+participant BoardRepository as brep
+
+participant Board as b
+participant PostIt as pi
+participant PostItRepository as pirep
+
+
+u->ui:Asks to undo change
+activate ui
+ui->ctrl:board(SystemUser user)
+activate ctrl
+ctrl->brep:findAllBoardsOwnByUser(user)
+deactivate
+activate brep
+brep->ui:Iterable<Board>board
+deactivate
+
+ui->u:Displays boards and asks to select one
+u->ui:Select board
+ui->pirep:findPostItByBoardUndoable(selectedBoard)
+pirep->ui:List<PostIt>postItByBoard
+ui->u:Displays post its and asks which\n one does the user want to undo
+u->ui:Chooses option
+ui->u:Asks the user wether or not to continue the operation
+u->ui:Chooses option
+alt option is to continue
+  ui->ctrl:undoChangePostIt(postIt, selectedBoard)
+  ctrl->pirep:findPostItById(postIt)
+  pirep->ctrl:PostIt theLastVersion
+  ctrl->pirep: save(theLastVersion)
+  ctrl->brep:save(board)
+  ui->u:Confirms operation's success
+else option is not to continue
+  ui->u:Confirms cancellation
+  end
+
+
+
+
+@enduml

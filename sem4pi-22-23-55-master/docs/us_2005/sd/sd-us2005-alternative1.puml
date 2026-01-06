@@ -1,0 +1,62 @@
+@startuml
+
+
+actor Student as Actor
+participant StudentGradesUI as gUI <<presentation>>
+participant StudentGradesController as gCTRL <<application>>
+
+participant PersistenceContext as Persistence <<Persistence>>
+participant RepositoryFactory as Factory <<factory>>
+
+
+
+database CourseRepository  <<repository>>
+database GradeRepository <<repository>>
+
+participant AppSettings as app
+
+Activate Actor
+Actor -> gUI: register User
+
+activate gUI
+
+gUI -> gCTRL: create
+
+gUI->gCTRL: getUserCourses()
+
+gCTRL -> Persistence: repositories()
+activate Persistence
+
+Persistence -> Factory: create
+
+
+
+Persistence-->gCTRL: factory()
+deactivate Persistence
+
+gCTRL->CourseRepository: findAll()
+
+gCTRL-->gUI: studentCourseList
+
+gUI -->Actor: shows courses and asks to select
+
+Actor -->gUI: selects course
+
+gUI--> gCTRL: studentsGrades(course)
+
+gCTRL->GradeRepository: findAll()
+
+gCTRL-->gUI: gradesList
+
+gUI -->Actor: shows course grades
+
+
+
+
+
+
+
+
+
+
+@enduml

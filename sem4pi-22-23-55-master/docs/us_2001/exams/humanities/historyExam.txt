@@ -1,0 +1,67 @@
+Exam: History
+Code: HIST1
+TotalMarks: 200
+PassingMarks: 100
+Duration: 30 minutes
+
+
+
+Section: Ancient Civilizations
+Marks: 60
+Questions:
+
+Question Type: Multiple Choice
+Marks: 30
+1. Which ancient civilization built the Great Pyramids of Giza?
+   a. Egyptian civilization
+   b. Mayan civilization
+   c. Greek civilization
+   d. Roman civilization
+Correct Answer: a
+
+Question Type: Multiple Choice
+Marks: 30
+2. The Indus Valley Civilization flourished in which present-day country?
+   a. India
+   b. China
+   c. Egypt
+   d. Iraq
+Correct Answer: a
+
+
+Section: World Wars
+Marks: 60
+Questions:
+
+Question Type: Multiple Choice
+Marks: 30
+MC 1. When did World War I begin?
+   a. 1914
+   b. 1918
+   c. 1939
+   d. 1945
+Correct Answer: b
+
+Question Type: Multiple Choice
+Marks: 30
+2. Who was the leader of Nazi Germany during World War II?
+   a. Adolf Hitler
+   b. Joseph Stalin
+   c. Winston Churchill
+   d. Franklin D. Roosevelt
+Correct Answer: a
+
+
+Section: General Knowledge
+Marks: 80
+Questions:
+
+Question Type: Text Answer
+Marks: 40
+1. What is the capital of France?
+Correct Answer: Paris
+
+Question Type: Text Answer
+Marks: 40
+2. Who is the inventor of Apple?
+Correct Answer: Steve Jobs

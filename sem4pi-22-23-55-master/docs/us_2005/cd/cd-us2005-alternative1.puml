@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class StudentUI <<application>>
+class Course <<value>>
+class Grade <<value>>
+
+
+class CourseRepository<<repository>>
+class GradeRepository<<repository>>
+
+class StudentGradesController<<Controller>>
+
+class PersistenceContext <<Persistence>>
+
+class RepositoryFactory<<factory>>
+
+StudentUI..>StudentGradesController
+
+StudentGradesController<.. Grade
+RepositoryFactory<... GradeRepository
+
+StudentGradesController<.. Course
+RepositoryFactory<... CourseRepository
+
+StudentGradesController<.. PersistenceContext
+
+PersistenceContext<... RepositoryFactory
+
+
+
+
+@enduml

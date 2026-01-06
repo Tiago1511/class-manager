@@ -1,0 +1,19 @@
+@startuml
+actor manager
+participant System
+
+activate manager
+activate System
+manager -> System: login
+System -> manager: login success
+deactivate System
+manager -> System: choose option create a course
+activate System
+System -> manager: Request course information
+manager -> System: enter course information
+System -> manager: course created
+
+deactivate System
+deactivate manager
+
+@enduml

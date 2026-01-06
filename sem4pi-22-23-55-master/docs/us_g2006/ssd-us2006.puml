@@ -1,0 +1,13 @@
+@startuml
+actor Teacher
+participant System
+
+Teacher -> System : Asks to view grades
+System->Teacher: Displays a list of the courses and asks to choose one
+Teacher->System:Selects a course
+System -> Teacher : Displays a list of exams of the selected course and asks to select one
+Teacher-> System : Selects one exam
+System->Teacher: Displays all grades of the selected exam
+
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+actor teacher
+participant System
+
+activate teacher
+teacher -> System: login
+activate System
+System -> teacher: login success
+deactivate System
+teacher -> System: choose option to update a class
+activate System
+System -> teacher: Request class information
+deactivate System
+teacher -> System: enter class information
+activate System
+System -> teacher: class updated
+
+deactivate System
+deactivate teacher
+
+@enduml

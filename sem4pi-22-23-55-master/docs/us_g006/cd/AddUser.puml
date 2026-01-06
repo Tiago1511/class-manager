@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+class AutenticationService <<service>> {}
+class Session <<value>> {}
+class Username <<value>> <<id>> {}
+class Userbuilder <<factory>>
+class Password <<value>>
+class Name <<value>>
+class SystemUser <<aggregate root>> <<entity>>
+class EmailAddress <<value>>
+class Userbuilder <<factory>>
+class Rolelist <<value>>
+class Role <<value>>
+class RoleType <<enum>>
+class ActionRight <<enum>>
+
+Session -> SystemUser
+SystemUser -> EmailAddress
+SystemUser -> Password
+SystemUser -> Username
+SystemUser -> Name
+SystemUser -> Rolelist
+SystemUser ..> ActionRight
+Userbuilder ..> SystemUser
+AutenticationService ..> Username
+AutenticationService ..> Password
+AutenticationService ..> Session
+Rolelist *-> Role
+Role -> RoleType
+ActionRight ..>RoleType
+
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+
+class Board {
+-String title
+-Set<Row> rows
+-Set<Column> column
+
+}
+
+class SystemUser {
+
+}
+
+class UndoChangePostItUI{
+}
+
+class CreatePostItController{
++undoChangePostIt(PostIt postIt, Board board)
+}
+
+interface PostItRepository{
+}
+
+class PostIt{
+-Calendar date
+-String title
+-String content
+-boolean active
+-Board board
+-int lastVersionId
+}
+
+
+UndoChangePostItUI -->CreatePostItController
+CreatePostItController->PostItRepository
+UndoChangePostItUI->PostItRepository
+UndoChangePostItUI-->SystemUser
+UndoChangePostItUI->Board
+CreatePostItController -->PostIt
+
+
+
+@enduml

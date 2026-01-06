@@ -1,0 +1,122 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+Actor "User" as User
+participant "ArchiveBoardUI <<presentation>>" as CUI
+participant "ArchiveBoardController <<application>>" as CTRL
+participant "PersistenceContext <<persistence>>" as PER
+participant "RepositoryFactory <<factory>>" as REP
+participant "Board <<domain>>" as CLASS
+database "BoardRepository<<repository>>" as CREP
+
+
+activate User
+
+    User -> CUI : archive a board
+
+    activate CUI
+    activate CTRL
+
+        CUI -> CTRL : create()
+
+        CUI -> CUI : doShow()
+
+        CUI -> CTRL : findAllBoardsOwnByUser()
+
+
+
+
+        CTRL -> PER : repositories()
+        activate PER
+
+        PER -> REP : create()
+
+
+
+
+
+        PER -> CTRL : factory
+        deactivate PER
+
+        CTRL -> REP : sharedBoards()
+        activate REP
+
+        REP -> CREP : create()
+
+        REP -> CTRL : sharedBoards
+        deactivate REP
+
+        CTRL -> CREP : findAllBoardsOwnByUser()
+        activate CREP
+
+        CREP -> CTRL : AllBoardsOwnByUser
+        deactivate CREP
+
+        CTRL -> CUI : AllBoardsOwnByUser
+
+
+
+
+
+
+
+
+
+
+
+                   deactivate CTRL
+
+                deactivate PER
+
+
+
+
+
+
+
+
+
+
+
+                CUI -> User : requests board id
+
+                User -> CUI : inserts board id to archive
+
+                CUI -> CTRL : archiveBoard(board)
+                activate CTRL
+
+                CTRL -> CLASS :archiveBoard()
+                activate CLASS
+
+
+
+                CLASS -> CREP : save(board)
+                activate CREP
+                deactivate CLASS
+
+
+                deactivate CREP
+
+
+
+
+
+                CUI -> User: success message
+                deactivate CUI
+
+
+
+
+
+
+
+
+                deactivate CTRL
+
+
+
+deactivate User
+
+@enduml

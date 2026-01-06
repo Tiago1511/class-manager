@@ -1,0 +1,336 @@
+@startuml
+
+
+actor Manager as Actor
+participant RegisterUserUI as rUI <<presentation>>
+participant RegisterStudentUI as rsUI <<presentation>>
+participant RegisterTeacherUI as rtUI <<presentation>>
+participant RegisterManagerUI as rmUI <<presentation>>
+
+participant RegisterUserController as rCTRL <<application>>
+participant RegisterStudentController as rsCTRL <<application>>
+participant RegisterTeacherController as rtCTRL <<application>>
+participant RegisterManagerController as rmCTRL <<application>>
+
+participant StudentBuilder as sBuilder <<builder>>
+participant TeacherBuilder as tBuilder <<builder>>
+participant ManagerBuilder as mBuilder <<builder>>
+'participant UserBuilder as Builder <<builder>>
+'participant "user:User" as Domain <<domain>>
+participant PersistenceContext as Persistence <<Persistence>>
+participant RepositoryFactory as Factory <<factory>>
+
+participant DisableUserUI as dUI <<presentation>>
+participant DeactivateUserController as dCTRL <<application>>
+
+participant ListUsersUI as lUI <<presentation>>
+participant ListUsersController as lCTRL <<application>>
+
+
+database UserRepository  <<repository>>
+database RoleRepository <<repository>>
+database StudentRepository <<repository>>
+database TeacherRepository <<repository>>
+database ManagerRepository <<repository>>
+
+participant AppSettings as app
+
+opt 1
+Actor -> rUI: register User
+activate rUI
+
+rUI -> rCTRL: create
+activate rCTRL
+
+rUI->rCTRL: getUserRoles()
+
+rCTRL -> Persistence: repositories()
+activate Persistence
+
+Persistence -> Factory: create
+
+Persistence-->rCTRL: factory()
+deactivate Persistence
+
+rCTRL->RoleRepository: findAll()
+
+
+rCTRL-->rUI: roleList
+
+rUI -->Actor: shows roles and asks to select
+
+
+rCTRL->UserRepository: findAll()
+
+rCTRL-->rUI: usersList
+deactivate rCTRL
+
+rUI -->Actor: shows users and asks to select
+
+Actor -->rUI: systemUser
+
+opt 1.1
+
+Actor->rUI: RegisterStudentUI(systemUser))
+
+
+rUI->rsUI: create
+deactivate rUI
+activate rsUI
+
+rsUI->Actor: asks systemUser information
+Actor->rsUI: registerStudent(taxNumber, mechanographicNumber)
+
+
+rsUI->rsCTRL: registerStudent(systemUser,taxNumber, mechanographicNumber)
+activate rsCTRL
+
+note right of rsCTRL: Estou a associar bem o systemUser com o student?
+rsCTRL->sBuilder**:create
+
+rsCTRL->sBuilder: systemUser(systemUser)
+activate sBuilder
+
+rsCTRL->sBuilder: taxNumber(taxNumber)
+
+rsCTRL->sBuilder:mecanographicNumber(mecanographicNumber)
+
+note right of rsCTRL: build student
+rsCTRL->sBuilder: student = createStudent(systemUser,taxNumber, mechanographicNumber)
+deactivate sBuilder
+
+
+
+rsCTRL->Factory: students()
+activate Factory
+
+Factory->StudentRepository:create
+
+Factory-->rsCTRL: studentRepository
+deactivate Factory
+
+rsCTRL-> StudentRepository: save(student)
+
+rsCTRL-> rsUI: newStudent
+deactivate rsCTRL
+
+rsUI->Actor: display operation success
+deactivate rsUI
+
+end opt
+
+alt 1.2
+Actor->rUI: RegisterTeacherUI(systemUser))
+activate rUI
+rUI->rtUI: create
+deactivate rUI
+
+activate rtUI
+rtUI->Actor: asks systemUser information
+Actor->rtUI: registerTeacher(systemUser,taxNumber, acronym)
+
+
+
+rtUI->rtCTRL: registerTeacher\n(systemUser,taxNumber, acronym)
+activate rtCTRL
+
+note right of rtCTRL: Estou a associar bem o systemUser com o teacher?
+rtCTRL->tBuilder**:create
+rtCTRL->tBuilder:systemUser(systemUser)
+activate tBuilder
+
+note right of rtCTRL: Set the rest of the info
+rtCTRL->tBuilder: newTeacher = \ncreateTeacher(systemUser,taxNumber, acronym)
+deactivate tBuilder
+
+
+
+rtCTRL->Factory: teachers()
+activate Factory
+
+Factory->TeacherRepository:create
+
+Factory-->rtCTRL: teacherRepository
+deactivate Factory
+
+rtCTRL-> TeacherRepository: save(teacher)
+
+rtCTRL-> rtUI: teacher
+deactivate rtCTRL
+
+rtUI->Actor: display operation success
+deactivate rtUI
+
+
+end opt
+
+alt 1.3
+Actor->rUI: RegisterManagerUI(systemUser))
+activate rUI
+
+rUI->rmUI: create
+deactivate rUI
+
+activate rmUI
+rmUI->Actor: asks systemUser information
+Actor->rmUI: registerManager(email)
+
+
+
+rmUI->rmCTRL: registerManager\n(email)
+activate rmCTRL
+
+note right of rmCTRL: Estou a associar bem o systemUser com o Manager?
+rmCTRL->mBuilder**:create
+rmCTRL->mBuilder:setEmail()
+activate mBuilder
+
+'note right of rCTRL: Set the rest of the info
+rmCTRL->mBuilder: newManager = \ncreateManager(email)
+deactivate mBuilder
+
+
+rmCTRL->Factory: managers()
+activate Factory
+
+Factory->ManagerRepository:create
+
+Factory-->rmCTRL: managerRepository
+deactivate Factory
+
+rmCTRL-> ManagerRepository: save(manager)
+
+rmCTRL-> rmUI: manager
+deactivate rmCTRL
+
+rmUI->Actor: display operation success
+deactivate rmUI
+
+
+
+end opt
+
+
+
+    end opt
+
+
+alt 2
+
+opt 2.1
+Actor->dUI: disable systemUser
+activate dUI
+
+
+dUI -> dCTRL: create
+dUI->dCTRL: getDeactivatedUsers()
+
+dCTRL->Persistence: repositories()
+
+Persistence->Factory:create
+
+Factory->RoleRepository: create
+
+dCTRL->RoleRepository: findAllDeactivatedUsers()
+
+dCTRL-->dUI: rolesList
+
+dUI -->Actor: shows list and asks systemUser of systemUser to deactivate
+
+
+
+
+
+dUI -> dCTRL: create
+activate dCTRL
+
+dUI->dCTRL: disableUser()
+
+dCTRL->Persistence: repositories()
+activate Persistence
+
+Persistence->Factory:create
+activate Factory
+
+Factory->UserRepository: create
+
+deactivate dCTRL
+deactivate dUI
+deactivate Persistence
+deactivate Factory
+
+end opt
+
+alt 2.2
+Actor->dUI: enable systemUser
+activate dUI
+
+dUI -> dCTRL: create
+activate dCTRL
+
+dUI->dCTRL: enableUser()
+
+dCTRL->Persistence: repositories()
+activate Persistence
+
+Persistence->Factory:create
+activate Factory
+
+Factory->UserRepository: create
+deactivate dCTRL
+deactivate dUI
+deactivate Persistence
+deactivate Factory
+end alt
+
+end alt 2
+
+
+alt 3
+Actor->lUI: list all users
+
+lUI->lUI: doShow()
+activate lUI
+
+lUI->lCTRL: listUsers()
+activate lCTRL
+
+lCTRL->Persistence: repositories
+activate Persistence
+
+Persistence-> app: instance()
+
+Persistence-> app: getRepositoryFactory
+deactivate Persistence
+activate app
+
+
+app-->Factory: create
+activate Factory
+
+Factory-->app: factory
+deactivate Factory
+
+app-->lCTRL: factory
+deactivate app
+
+lCTRL->Factory: users()
+activate Factory
+
+Factory-->UserRepository
+deactivate Factory
+
+lCTRL-> UserRepository: list=all()
+activate UserRepository
+
+UserRepository-->lCTRL: list
+deactivate UserRepository
+
+lCTRL-->lUI: list
+deactivate lCTRL
+
+lUI-->Actor: shows list
+deactivate lUI
+
+end alt
+@enduml

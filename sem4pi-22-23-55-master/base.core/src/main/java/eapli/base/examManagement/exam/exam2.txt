@@ -1,0 +1,50 @@
+Exam: History
+Code: ht1
+TotalMarks: 200
+PassingMarks: 100
+Duration: 30 minutes
+
+Section: Ancient Civilizations
+Marks: 60
+Questions:
+1. Which ancient civilization built the Great Pyramids of Giza?
+   a. Egyptian civilization
+   b. Mayan civilization
+   c. Greek civilization
+   d. Roman civilization
+
+2. The Indus Valley Civilization flourished in which present-day country?
+   a. India
+   b. China
+   c. Egypt
+   d. Iraq
+
+Section: World Wars
+Marks: 60
+Questions:
+1. When did World War I begin?
+   a. 1914
+   b. 1918
+   c. 1939
+   d. 1945
+
+2. Who was the leader of Nazi Germany during World War II?
+   a. Adolf Hitler
+   b. Joseph Stalin
+   c. Winston Churchill
+   d. Franklin D. Roosevelt
+
+Section: General Knowledge
+Marks: 80
+Questions:
+1. What is the capital of France?
+   a. London
+   b. Paris
+   c. Madrid
+   d. Rome
+
+2. Who is the inventor of the World Wide Web?
+   a. Tim Berners-Lee
+   b. Bill Gates
+   c. Mark Zuckerberg
+   d. Steve Jobs

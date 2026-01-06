@@ -1,0 +1,14 @@
+@startuml
+actor User
+participant System
+
+User -> System : Asks to undo the last change in a post-it
+System ->User : Asks to select a board
+User ->System: Selects board
+System->User : Asks which post-it the user wants to change
+User->System: Chooses an option
+System->User: Asks to confirm the operation's
+User->System :Confirms
+System->User : Confirms operation's success
+
+@enduml

@@ -1,0 +1,341 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+hide methods
+' ======= layout =========
+skinparam backgroundColor #fcf9ea
+skinparam titleBorderRoundCorner 15
+skinparam titleFontSize 30
+skinparam classAttributeIconSize 0
+skinparam titleFontName Arial Black
+skinparam titleFontColor #f8a978
+skinparam roundcorner 20
+skinparam stereotypeCBackgroundColor ffc5a1
+skinparam class {
+
+ArrowColor ffc5a1
+BorderColor White
+BackgroundColor badfdb
+BackgroundColor<<Event>> skyblue
+BackgroundColor<<Service>> Moccasin
+}
+
+' =====User====='
+frame USER <<Aggregate>>{
+class User <<root>> <<Entity>>{
+}
+class FullName <<value object>> {
+    -fullName
+}
+
+class ShortName <<value object>> {
+    -shortName
+}
+
+class DateOfBirth <<value object>> {
+    -dateOfBirth
+}
+
+class TaxPayerNumber <<value object>> {
+    -taxPayerNumber
+}
+class Email <<value object>> {
+    -email
+}
+
+User "1" ---down> "1" FullName
+User "1" ---down> "1" ShortName
+User "1" ---down> "1" DateOfBirth
+User "1" ---down> "1" TaxPayerNumber
+User "1" ---down> "1" Email
+}
+
+' =====Student====='
+frame STUDENT <<Aggregate>>{
+class Student <<root>> <<Entity>>{
+}
+class MecanographicNumber <<value object>> {
+        -mecanographicNumber
+}
+
+Student "1" ---down> "1" MecanographicNumber
+}
+
+' =====Teacher====='
+frame TEACHER <<Aggregate>>{
+class Teacher <<root>> <<Entity>>{
+}
+
+class Acronym <<value object>> {
+       -acronym
+}
+
+class TaxNumber << value object>> {
+    -taxNumber
+}
+
+Teacher "1" ---down> "1" TaxNumber : has >
+Teacher "1" ---down> "1" Acronym : has >
+
+}
+
+' =====Manager====='
+frame MANAGER <<Aggregate>>{
+class Manager <<root>> <<Entity>>{
+}
+}
+Manager --|> User
+Teacher --|> User
+Student --|> User
+
+' =====COURSE====='
+frame COURSE <<Aggregate>> {
+
+    class Course <<root>> <<Entity>>{
+        -courseName
+        -courseDescription
+        -title
+    }
+
+    class CourseVersion <<value object>>{
+        -version
+    }
+
+    class CourseCode <<value object>>{
+        -courseCode
+    }
+
+    class CourseState <<value object>>{
+        -courseState
+    }
+
+    note right: in progress, close, open
+
+    class Capacity <<value object>> {
+        -minStudents
+        -maxStudents
+    }
+
+
+    Course "1" ---down> "1" CourseCode
+    Course "*" ---down> "1" CourseState
+    Course "1" ---down> "1" Capacity
+    Course "1" ---down> "1" CourseVersion
+}
+
+Manager "1" --> "*" Course: creates >
+Teacher"*" --o "1..*"Course : lectures >
+Teacher "1" <-- "1" Course : HeadTeacher >
+Student "1..*"---o "*"Course :enrolls >
+
+frame EXAMANSWERED <<Aggregate>>{
+
+    class ExamAnswered <<root>> <<Entity>>{
+            -resolution
+    }
+
+    class Grade <<Value Object>>{
+    }
+
+}
+
+' =====EXAM====='
+frame EXAM <<Aggregate>> {
+
+    class Exam <<root>> <<Entity>>{
+
+    }
+
+    class Worksheet <<value object>>{
+        -worksheet
+    }
+
+    class Resolution <<value object>>{
+        -resolution
+        -classification
+    }
+
+    class BaseQuestion {
+        -question
+    }
+
+    class Question {
+    -question
+    }
+
+   Exam "1" ---down> "1" Resolution : has >
+   Exam "1" ---down> "1" Worksheet : has >
+   Exam "1" ---down> "1" Question : has >
+   BaseQuestion "1"-->"1..*" Question
+
+}
+
+Exam "1..*" ---->"1" Teacher : creates >
+Student "*"--- "*"Exam : takes >
+ExamAnswered "1" -- "1" Student: belongs to >
+Course "1"--> "0..*" Exam :has >
+ExamAnswered "1" -- "1" Exam: belongs to >
+
+class ExamService <<Service>>{
+}
+
+
+ExamAnswered "1" -- "1" Grade: belongs to <
+
+
+' =====MEETING====='
+frame MEETING <<Aggregate>> {
+
+    class Meeting <<root>> <<Entity>>{
+    }
+
+    class MeetingInfo <<value object>>{
+        -meetingInfo
+    }
+
+    class DateMeeting <<value object>>{
+            -date
+    }
+
+    class EndingTimeMeeting <<value object>>{
+        -time
+    }
+
+    class StartingTimeMeeting <<value object>>{
+        -time
+    }
+
+    Meeting "1" ---down> "1" DateMeeting : has >
+    Meeting "1" ---down> "1" StartingTimeMeeting : has >
+    Meeting "1" ---down> "1" EndingTimeMeeting : has >
+    Meeting "1"-->"1" MeetingInfo : has >
+
+}
+
+Meeting --> Course : belongs <
+
+' =====CLASS====='
+frame CLASS <<Aggregate>> {
+
+    class Class <<root>> <<Entity>>{
+    }
+
+    class ExtraClass <<root>> <<Entity>>{
+    }
+
+    class RecurrentClass  <<root>> <<Entity>>{
+    }
+
+    class ClassInfo <<value object>>{
+        -classInfo
+    }
+
+    class Date <<value object>>{
+        -date
+    }
+
+    class EndingTime <<value object>>{
+        -time
+    }
+
+    class StartingTime <<value object>>{
+        -time
+    }
+
+}
+
+Class <|-- ExtraClass
+Class <|-- RecurrentClass
+Class "1" ---down> "1" Date : has >
+Class "1" ---down> "1" StartingTime : has >
+Class "1" ---down> "1" EndingTime : has >
+Class "1"--> "1" ClassInfo
+Class "1"--> "1" Teacher: belongs to >
+
+' =====ENROLLMENT====='
+
+frame ENROLLMENT <<Aggregate>> {
+
+    class Enrollment <<root>> <<Entity>>{
+    }
+
+    class EnrollmentSatus <<value object>>{
+        -enrollmentSatatus
+    }
+    note right: subscribed or order
+
+    Enrollment "1" ---down> "1" EnrollmentSatus : has >
+}
+
+Student "1" --> "1" Enrollment : belongs to >
+Course "1" --> "0..*" Enrollment : has >
+
+' =====BOARD====='
+frame BOARD <<Aggregate>> {
+
+    class Board <<root>> <<Entity>>{
+        -boardTitle
+    }
+
+
+    class Cell <<value object>>{
+    }
+
+    class Row <<Value object>>{
+        -RowTitle
+    }
+
+    class Column <<value object>>{
+        -ColmTitle
+    }
+
+
+    'class BoardHistory <<value object>> {
+       ' -historyUpdate
+    '}
+
+    class PostIt <<value object>> {
+        - postItId
+        - typeOfContent
+        - date
+    }
+
+
+    note right: Image or text
+
+    Board "*"-up-- "*"User : manages <
+    Board "1" *-down-> "*" Cell : has >
+    PostIt"*" <-up-"1" Cell: has <
+    Cell "1" -up-> "1" Row : has >
+    Cell "1" -up-> "1" Column : has >
+    'BoardHistory "1" -- "1" Board : has <'
+}
+
+Class "1" ---down> "1" Course : has <
+
+class ExamService <<Service>>
+Exam ---down> ExamService
+User ---down> ExamService
+
+class CourseEnrollmentService <<Service>>
+Course ---down> CourseEnrollmentService
+User ---down> CourseEnrollmentService
+note right: responsible for enrolling students in a course,\n either by bulk import or by individual request \n and also transfers students or eliminates them from the course
+
+class SharedBoardService <<Service>>
+Board ---down> SharedBoardService
+User ---down> SharedBoardService
+
+class MeetingService <<Service>>
+note left: this also includes invites and verifies if other users are available
+Meeting ---down> MeetingService
+Enrollment ---down> MeetingService
+
+class BoardHistoryService <<Service>>
+PostIt --down> BoardHistoryService
+
+class ClassService <<Service>>
+ExtraClass ---down> ClassService
+Enrollment ---down> ClassService
+
+@enduml

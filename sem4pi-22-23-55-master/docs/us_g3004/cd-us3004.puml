@@ -1,0 +1,39 @@
+@startuml
+
+class ShareBoardUI{
+}
+
+class ShareBoardController{
++selectedBoard()
++ManagerShare(Board board)
++StudentShare(Board board)
++TeacherShare(Board board)
+}
+
+class Board{}
+
+interface boardRepository{}
+interface managerRepository{
+Iterable<Manager> findAll
+}
+interface teacherRepository{
+Iterable<Teacher> findAll
+}
+interface studentRepository{
+Iterable<Student> findAll
+}
+
+
+
+ShareBoardUI->ShareBoardController
+ShareBoardController-->boardRepository
+ShareBoardController-->managerRepository
+ShareBoardController-->teacherRepository
+ShareBoardController-->studentRepository
+ShareBoardController->Board
+
+
+
+
+
+@enduml

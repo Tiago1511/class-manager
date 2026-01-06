@@ -1,0 +1,58 @@
+@startuml
+
+    class EnrollmentRequestUI {
+        - EnrollmentRequestController enrollmentRequestController
+        - CourseRepository courseRepository
+        + displayEnrollCoursesToStudent
+    }
+
+    class EnrollmentRequestController {
+        - EnrollmentRequestRepository enrollmentRequestRepository
+        + registerNewRequest(Student student, Course course)
+    }
+
+    class EnrollmentRequest {
+        - Student student
+        - Course course
+        - String status
+        - EnrollmentRequestID id
+        + EnrollmentRequest(Student student, Course course)
+        + generateId(Course course, Student student)
+
+    }
+
+    class EnrollmentRequestID {
+        - String number
+
+    }
+
+    interface EnrollmentRequestRepository {
+
+    }
+
+    class Student {
+    }
+
+    class Course {
+    }
+
+
+
+    class CourseRepository {
+    }
+
+
+
+
+
+
+ EnrollmentRequestUI --> EnrollmentRequestController
+    EnrollmentRequestUI --> CourseRepository
+    EnrollmentRequestController --> EnrollmentRequestRepository
+    EnrollmentRequestController --> EnrollmentRequest
+    EnrollmentRequest --> Student
+    EnrollmentRequest --> Course
+    EnrollmentRequest --> EnrollmentRequestID
+
+
+@enduml

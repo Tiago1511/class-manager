@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Manager <<service>>
+class Username <<value>>
+class Password <<value>>
+class Name <<value>>
+@enduml

@@ -1,0 +1,57 @@
+grammar createExam;
+
+start: automaticExam EOF ;
+
+automaticExam: EXAM exam_name CODE code_name TOTAL_MARKS total_marks PASSING_MARKS passing_marks DURATION duration_ section+;
+
+exam_name: STRING+ NEWLINE*;
+
+code_name: STRING+ NEWLINE*;
+
+total_marks: NUMBER NEWLINE*;
+
+passing_marks: NUMBER NEWLINE*;
+
+duration_: NUMBER NEWLINE* STRING+ NEWLINE*;
+
+text: STRING NEWLINE*
+| text STRING+ NEWLINE*;
+
+section: SECTION section_name MARKS section_marks QUESTIONS question_block;
+
+
+section_name: text;
+
+section_marks: NUMBER NEWLINE*;
+
+question_block: question+ NEWLINE*;
+
+question:  text answer_block ;
+
+answer_block : answer+;
+
+
+answer :text
+|text NUMBER NEWLINE*;
+
+
+EXAM: 'Exam: ' NEWLINE*;
+CODE: 'Code: ' NEWLINE*;
+TOTAL_MARKS: 'TotalMarks: ' NEWLINE*;
+PASSING_MARKS: 'PassingMarks: ' NEWLINE*;
+DURATION: 'Duration: ' NEWLINE*;
+SECTION: 'Section: ' NEWLINE*;
+MARKS: 'Marks: ' NEWLINE*;
+QUESTIONS: 'Questions:'NEWLINE*;
+//QUESTION: [1-9]'. 'STRING+;
+//ANSWER: [a-d]'. 'STRING+ NEWLINE*;
+
+NUMBER: [0-9]+ ;
+STRING: [a-zA-Z0-9,?.:;-]+;
+//TEXT: SPACE* STRING SPACE*;
+//SPACE: [ ];
+//NEWLINE : [ \t\n]+ ;
+NEWLINE:'\r'?'\n' ;
+
+
+WS: [ \t\r]+ -> skip;

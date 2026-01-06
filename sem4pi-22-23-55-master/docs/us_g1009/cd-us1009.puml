@@ -1,0 +1,46 @@
+@startuml
+
+    class ManageEnrollmentRequestUI {
+        - ManageEnrollmentRequestController enrollmentRequestController
+        - EnrollmentRequestRepository enrollmentRequestRepository
+
+    }
+
+    class ManageEnrollmentRequestController {
+        - EnrollmentRequestRepository enrollmentRequestRepository
+        + acceptRequest(EnrollmentRequest enrollmentRequest)
+        + rejectRequest(EnrollmentRequest enrollmentRequest)
+
+    }
+
+    class EnrollmentRequest {
+        - Student student
+        - Course course
+        - ERStatus status
+        - EnrollmentRequestID id
+        + EnrollmentRequest(Student student, Course course)
+        + generateId(Course course, Student student)
+
+    }
+
+    class ERStatus{
+        boolean isPending()
+        boolean isAccepted()
+        boolean isRejected()
+    }
+
+
+    interface EnrollmentRequestRepository {
+    pendingRequests()
+    acceptedRequests()
+    rejectedRequests()
+
+    }
+
+    ManageEnrollmentRequestUI --> ManageEnrollmentRequestController
+    ManageEnrollmentRequestController --> EnrollmentRequestRepository
+   ManageEnrollmentRequestController --> EnrollmentRequest
+   EnrollmentRequest --> ERStatus
+
+
+@enduml

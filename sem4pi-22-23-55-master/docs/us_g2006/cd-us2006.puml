@@ -1,0 +1,29 @@
+@startuml
+
+class ViewGradesUI {}
+
+class ViewGradesController {
++courseDisplay()
++examDisplay(Course course)
++grades(Exam exam)
+}
+
+interface GradeRepository {
+examGrades(Exam exam)
+}
+interface CourseRepository {
+findAll()
+}
+interface ExamRepository {
+courseExams(Course course)
+}
+
+ViewGradesUI->ViewGradesController
+ViewGradesController-->GradeRepository
+ViewGradesController-->CourseRepository
+ViewGradesController-->ExamRepository
+
+
+
+
+@enduml

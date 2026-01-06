@@ -1,0 +1,32 @@
+@startuml
+actor Student
+participant EnrollmentRequestUI
+participant CourseRepository
+participant EnrollmentRequestController
+participant EnrollmentRequest
+
+Student -> EnrollmentRequestUI: Asks for a list of available courses to enroll in
+EnrollmentRequestUI -> CourseRepository: enrollCourses()
+CourseRepository --> EnrollmentRequestUI: enrollCoursesList
+alt enrollCoursesList is empty
+    EnrollmentRequestUI -> Student: Informs that are no courses available for enroll.
+else enrollCoursesList is not empty
+    EnrollmentRequestUI -> Student: Shows available enroll Courses:
+    loop for each course in enrollCoursesList
+        EnrollmentRequestUI -> Student: Displays course title
+       
+    end
+    EnrollmentRequestUI -> Student: Asks to insert the option of the desired course
+    Student --> EnrollmentRequestUI: Inserts option
+    alt option is invalid
+        EnrollmentRequestUI -> Student: Informs that option is invalid.
+    else option is valid
+        EnrollmentRequestUI -> EnrollmentRequestController: registerNewRequest(student, selectedCourse)
+        EnrollmentRequestController -> EnrollmentRequest: EnrollmentRequest(student, selectedCourse)
+        EnrollmentRequest -> EnrollmentRequest: generateId(selectedCourse, student)
+        EnrollmentRequest -> EnrollmentRequestRepository: save(enrollmentRequest)
+        EnrollmentRequestRepository --> EnrollmentRequest: enrollmentRequest
+        EnrollmentRequestUI -> Student: Enrollment request created successfully.
+    end
+end
+@enduml

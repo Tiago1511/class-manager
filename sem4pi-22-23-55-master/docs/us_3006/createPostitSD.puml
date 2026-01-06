@@ -1,0 +1,178 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+Actor "user" as User
+participant "CreatePostitUI <<presentation>>" as CUI
+participant "PostitController <<application>>" as CTRL
+participant "PersistenceContext <<persistence>>" as PER
+participant "RepositoryFactory <<factory>>" as REP
+participant "Postit <<domain>>" as POST
+database "PostitRepository<<repository>>" as CREP
+database "BoardRepository<<repository>>" as BREP
+database "SystemUserRepository<<repository>>" as CREP1
+
+activate User
+
+    User -> CUI : asks to create a post-it
+
+    activate CUI
+
+        CUI -> AuthzRegistry : authorizationService()
+        activate AuthzRegistry
+            AuthzRegistry -> AuthzRegistry : getInstance()
+            AuthzRegistry -> AuthzRegistry : authorizationService()
+
+            AuthzRegistry --> CUI : authz
+            deactivate AuthzRegistry
+
+        CUI -> AuthorizationService : authz.session()
+        activate AuthorizationService
+            AuthorizationService -> AuthorizationService : getInstance()
+            AuthorizationService -> AuthorizationService : session()
+            AuthorizationService -> AuthorizationService : get()
+            AuthorizationService --> CUI : session
+            deactivate AuthorizationService
+
+        CUI -> UserSession : session.authenticatedUser()
+        activate UserSession
+            UserSession -> UserSession : getInstance()
+            UserSession -> UserSession : authenticatedUser()
+            UserSession --> CUI : systemUser
+            deactivate UserSession
+
+        CUI -> CTRL** : board(systemUser)
+
+            activate CTRL
+
+                CTRL -> PER : repositories()
+
+                activate PER
+
+                    PER -> REP : create
+
+                    activate REP
+
+                        REP -> CREP : create
+                        activate CREP
+
+                        CREP --> REP :
+                        deactivate CREP
+
+                    REP -->PER
+                    deactivate REP
+
+                    PER --> CTRL : PostItRepository
+
+                deactivate PER
+
+                CTRL -> PER : repositories()
+
+                                activate PER
+
+                                    PER -> REP : create
+
+                                    activate REP
+
+                                        REP -> CREP : create
+                                        activate CREP
+
+                                        CREP --> REP :
+                                        deactivate CREP
+
+                                    REP -->PER
+                                    deactivate REP
+
+                                    PER --> CTRL : BoardRepository
+
+                                deactivate PER
+
+                                CTRL -> BREP : board(systemUser)
+                                activate BREP
+
+                                    BREP -> BREP : getBoardByUser(systemUser)
+                                    BREP --> CTRL : List<Board> boardList
+
+                                deactivate BREP
+
+                CTRL --> CUI : boardList
+
+            deactivate CTRL
+
+            CUI --> User : asks to choose a board
+                deactivate CUI
+
+
+
+            User -> CUI: chooses a board
+
+                activate CUI
+
+                CUI -> CTRL : board
+
+                activate CTRL
+
+                CTRL -> CTRL : board.cells()
+
+                deactivate CTRL
+
+                CTRL --> CUI : cells
+
+                deactivate CUI
+
+                CUI --> User : shows cells available and asks to choose one
+
+                User -> CUI : chooses a cell
+
+                activate CUI
+
+                CUI --> User : asks data for the post-it
+
+                deactivate CUI
+
+                User -> CUI : provides data for the post-it
+
+                activate CUI
+
+                CUI -> CTRL : postitCreator(cell, title, content, board)
+
+                activate CTRL
+
+                CTRL -> POST** : createPostit(cell, title, content, board)
+
+                POST --> CTRL : postit
+
+                CTRL -> CTRL : cell.setHasPostIt(true)
+
+                CTRL -> CREP : save(postit)
+
+                activate CREP
+
+                CREP -> CREP : save(postit)
+
+                CREP --> CTRL :
+
+                deactivate CREP
+
+                CTRL -> BREP : save(board)
+
+                activate BREP
+
+                BREP -> BREP : save(board)
+
+                BREP --> CTRL :
+
+                deactivate BREP
+
+                CTRL --> CUI :
+
+                deactivate CTRL
+
+                CUI --> User : shows operation success
+
+                deactivate CUI
+
+deactivate User
+
+@enduml

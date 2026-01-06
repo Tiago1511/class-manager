@@ -1,0 +1,79 @@
+@startuml
+
+class PostitController {
+    - postitRepository: PostitRepository
+    - boardRepository: BoardRepository
+    + postitCreator(Cell, String, String, Board): void
+    + board(SystemUser): Iterable<Board>
+    + changePostit(PostIt, String, String, Cell, Board): void
+    + undoChangePostit(PostIt, Board): void
+}
+
+
+class Repositories {
+    + postits(): PostitRepository
+    + boards(): BoardRepository
+}
+
+class BoardRepository {
+    + findAllBoardsOwnByUser(SystemUser): Iterable<Board>
+    + save(Board): Board
+}
+
+class PostitRepository {
+    + findPostitByBoard(Board): List<PostIt>
+    + findPostitByBoardUndoable(Board): List<PostIt>
+    + findPostitById(Integer): PostIt
+    + deletePostit(Integer): void
+}
+
+class Board {
+    + cells(): Set<Cell>
+}
+
+class Cell {
+    + isHasPostIt(): boolean
+    + getColuna(): int
+    + getLinha(): int
+    + setHasPostIt(boolean): void
+}
+
+class PostIt {
+    + PostIt(Cell, String, String, Board, Integer)
+    + getTitle(): String
+    + getContent(): String
+    + getCell(): Cell
+    + getBoard(): Board
+    + getId(): Integer
+    + setActive(boolean): void
+    + getLastVersionId(): Integer
+}
+
+class SystemUser {
+  - username: Username
+  - password: Password
+  - name: Name
+  - email: EmailAddress
+}
+
+
+
+class UpdatePostitUI {
+    - ctrl: PostitController
+    + doShow(): boolean
+    + headline(): String
+}
+
+
+UpdatePostitUI --> PostitController
+PostitController --> PostitRepository
+PostitController --> BoardRepository
+PostitController --> Board
+PostitController --> Cell
+PostIt --> Cell
+PostIt --> Board
+PostIt --> SystemUser
+PostitRepository --> Repositories
+BoardRepository --> Repositories
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+actor Teacher
+participant ViewGradesUI as ui
+participant ViewGradesController as c
+participant CourseRepository as crep
+participant ExamRepository as erep
+participant GradeRepository as grep
+
+Teacher -> ui : Asks to view grades
+ui-> c : courseDisplay()
+c->crep: findAll()
+crep->c: Iterable<Course>courses
+ui->Teacher: Displays a list of the courses and asks to choose one
+Teacher->ui:Selects a course
+ui-> c : examDisplay()
+c->erep: courseExams(selectedCourse)
+erep->c: Iterable<Exam>exams
+ui -> Teacher : Displays a list of exams of the selected course and asks to select one
+Teacher-> ui : Selects one exam
+ui->c:grades(Exam exam)
+c->grep: examGrades(Exam exam)
+grep->c: List<Grade>
+
+ui->Teacher: Displays all grades of the selected exam
+
+
+
+
+
+
+
+
+
+
+@enduml

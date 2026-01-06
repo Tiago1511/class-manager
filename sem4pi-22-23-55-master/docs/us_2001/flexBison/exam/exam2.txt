@@ -1,0 +1,33 @@
+Exam: History Quiz
+TotalMarks: 50
+PassingMarks: 30
+Duration: 30 minutes
+
+Section: Ancient Civilizations
+Marks: 20
+Questions:
+1. Which ancient civilization built the Great Pyramids of Giza?
+   a. Egyptian civilization
+   b. Mayan civilization
+   c. Greek civilization
+   d. Roman civilization
+2. The Indus Valley Civilization flourished in which present-day country?
+   a. India
+   b. China
+   c. Egypt
+   d. Iraq
+
+Section: World Wars
+Marks: 30
+Questions:
+1. When did World War I begin?
+   a. 1914
+   b. 1918
+   c. 1939
+   d. 1945
+
+2. Who was the leader of Nazi Germany during World War II?
+   a. Adolf Hitler
+   b. Joseph Stalin
+   c. Winston Churchill
+   d. Franklin D. Roosevelt

@@ -1,0 +1,42 @@
+@startuml
+
+     actor User
+     participant CreateBoardAction
+     participant CreateBoardUI
+     participant Board
+     participant Row
+     participant Column
+
+     activate User
+     User ->> CreateBoardAction: execute()
+     activate CreateBoardAction
+     CreateBoardAction ->> CreateBoardUI: createBoard()
+     deactivate CreateBoardAction
+     activate CreateBoardUI
+
+     CreateBoardUI->>User: Enter board title
+     User ->> CreateBoardUI: Provide title
+     CreateBoardUI->>User: Enter number of rows
+     User ->> CreateBoardUI: Provide number of rows
+     CreateBoardUI->>User: Enter number of columns
+     User ->> CreateBoardUI: Provide number of columns
+     CreateBoardUI->>Board: Board(title)
+     activate Board
+     loop For each row
+         CreateBoardUI->>Board: addRow(row)
+         activate Row
+         CreateBoardUI->>Row: Row(rowTitle)
+         loop For each column
+             CreateBoardUI->>Row: addColumn(column)
+             CreateBoardUI->>Column: Column(columnTitle)
+         end
+         deactivate Row
+     end
+     deactivate Board
+     CreateBoardUI->>User: Display board scheme
+     deactivate CreateBoardUI
+     deactivate CreateBoardAction
+
+
+
+@enduml

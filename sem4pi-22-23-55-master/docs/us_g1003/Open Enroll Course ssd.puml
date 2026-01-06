@@ -1,0 +1,24 @@
+@startuml
+actor manager
+participant System
+
+activate manager
+activate System
+manager -> System: login
+System -> manager: login success
+deactivate System
+manager -> System: choose open/close Enrollment option
+
+activate System
+System -> manager: menu open/close Enrollment
+manager -> System: choose open Enrollment
+deactivate System
+System -> manager: list the possible courses to change the state
+
+activate System
+manager -> System: choose course
+System -> manager: changed course status
+
+
+deactivate manager
+@enduml

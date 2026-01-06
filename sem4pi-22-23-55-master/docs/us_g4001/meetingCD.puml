@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+
+class Meeting <<domain>>
+class ScheduleMeetingController <<application>>
+class Duration <<value>>
+class Participant <<value>>
+class Time <<value>>
+class Date <<value>>
+class RepositoryFactory<<factory>>
+class UserRepository<<repository>>
+class MeetingRepository<<repository>>
+class ScheduleMeetingUI<<presentation>>
+
+Meeting ..> ScheduleMeetingController
+ScheduleMeetingUI <... ScheduleMeetingController
+Meeting <... Duration
+Meeting <.... Participant
+Meeting <.... Time
+Meeting <.... Date
+ScheduleMeetingController ...> UserRepository
+ScheduleMeetingController ...> MeetingRepository
+MeetingRepository ...> RepositoryFactory
+UserRepository ...> RepositoryFactory
+
+
+
+@enduml

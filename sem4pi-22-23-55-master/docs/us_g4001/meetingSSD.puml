@@ -1,0 +1,35 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+actor User
+participant System
+
+activate User
+User -> System: Login
+activate System
+System -> User: Login success
+deactivate System
+User -> System: Choose option to schedule a meeting
+activate System
+System -> User: Request meeting date
+deactivate System
+User -> System: Enter meeting date
+activate System
+System -> User: Request meeting starting time
+deactivate System
+User -> System: Enter meeting starting time
+activate System
+System -> User: Request meeting duration
+deactivate System
+User -> System: Enter meeting duration
+activate System
+System -> User: Request meeting participants
+deactivate System
+User -> System: Enter meeting participants
+activate System
+System -> User: Shows meeting scheduled
+
+deactivate User
+
+@enduml

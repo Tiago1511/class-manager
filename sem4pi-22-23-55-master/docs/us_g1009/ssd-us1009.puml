@@ -1,0 +1,13 @@
+@startuml
+
+    participant Manager
+    participant System
+
+
+    Manager->System:Asks to enroll students
+    System->Manager: Displays a list of all the pending enrollment requests \nand asks to choose an option
+    Manager->System: Selects one request
+    System->Manager: Asks if the manager wants to accept or reject the request
+    Manager->System:Chooses an option
+    System->Manager:Confirms operation's success
+@enduml

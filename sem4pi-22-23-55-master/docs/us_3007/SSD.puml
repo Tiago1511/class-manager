@@ -1,0 +1,42 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+actor user
+participant System
+
+activate user
+activate System
+
+user -> System: asks to update a post-it
+
+System --> user: asks which board would like to update the post-it
+
+deactivate System
+
+user -> System: chooses a board
+
+activate System
+
+System --> user: shows post-its on that board and asks to choose one
+
+deactivate System
+
+user -> System: chooses a post-it
+
+activate System
+
+System --> user: asks for post-it data
+
+deactivate System
+
+user -> System: types data for post-it
+
+activate System
+
+System --> user: shows operation success
+
+deactivate System
+deactivate user
+
+@enduml

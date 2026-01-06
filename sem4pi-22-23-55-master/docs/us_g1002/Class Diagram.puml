@@ -1,0 +1,68 @@
+@startuml
+
+class RegisterCourseViasDTOUI {
++ headline()
+# doShow()
+}
+
+class CourseDTOParser {
++ valueOf(CourseDTO)
+}
+
+class Course {
+-code
+-title
+-description
+-teacher
+-headTeacher
+-status
++sameAs(Object)
++equals(Object)
++hashCode()
++identity()
++toDTO()
++status(Status)
++title()
+}
+
+class RegisterCourseViasDTOController {
++ registerCourse(CourseDTO)
++ teacher()
+}
+
+class CourseBuilder {
+-buildOrThrow()
++ofType(teacher)
++capacity (capacity)
++status (status)
++title (title)
++code (code)
++description ( description)
++teacher (teacher)
++build()
+}
+
+interface CourseRepository {
+closeCourses()
+progressCourses()
+openCourses()
+enrollCourses()
+}
+
+class ListTeacherService {
++teacher(acronym)
++allTeachers()
++teachers()
+-transformToDTO()
+}
+
+interface TeacherRepository
+
+RegisterCourseViasDTOUI ..> RegisterCourseViasDTOController
+RegisterCourseViasDTOController ..> CourseRepository
+RegisterCourseViasDTOController --> CourseDTOParser
+CourseDTOParser --> CourseBuilder
+CourseBuilder --> Course
+RegisterCourseViasDTOController ..>ListTeacherService
+ListTeacherService -->TeacherRepository
+@enduml

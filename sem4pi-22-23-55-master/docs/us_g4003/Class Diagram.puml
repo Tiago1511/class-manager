@@ -1,0 +1,55 @@
+@startuml
+
+class AcceptRejectMeetingUI {
++ headline()
+# doShow()
+- aceptReject()
+- optionsStatus()
+}
+
+class AceptRejectMeetingController {
++ meetig(SystemUser)
++ aceptRejectMeeting(Meetings, InviteStatus, SystemUser)
+}
+
+class ListMeetingsService {
++ overlap(Meeting, SystemUser)
++ myMeetings(SystemUser)
++ myMeetingsPending(SystemUser)
++myMeetingsAndOpened(SystemUser systemUser)
++myMeetingsCreatedAndOpened(SystemUser systemUser)
+}
+
+interface MeetingsRepository {
++ cancelled()
++ findByMyMeetingsCreatedAndOpened(SystemUser)
++ findByMyMeetingsAndOpened(SystemUser)
++ findByMyMeetingsPending(SystemUser)
++ findByMyMeetingsPendingHours(SystemUser, Calendar, LocalTime, LocalTime)
++ findByMyMeetings(SystemUser)
+}
+
+class Meetings {
+- id
+- date
+- startTime
+- endTime
+- Set<Invite> invite
+- cancelled
+- SystemUser
++ sameAS(Meeting)
++ identity()
++ equals(Meeting)
++ hasIdentity(id)
++ cancelMeeting()
++ aceptRejectMeeting(InviteStatus, SystemUser)
++ listGuest()
+}
+
+AcceptRejectMeetingUI --> AceptRejectMeetingController
+AceptRejectMeetingController --> ListMeetingsService
+ListMeetingsService --> MeetingsRepository
+AceptRejectMeetingController --> Meetings
+AceptRejectMeetingController --> MeetingsRepository
+
+@enduml

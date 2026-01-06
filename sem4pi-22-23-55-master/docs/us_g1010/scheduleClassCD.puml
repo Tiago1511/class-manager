@@ -1,0 +1,194 @@
+@startuml
+
+package eapli.base.ClassManagement.application {
+    class ClassCreatorController {
+        - authz: AuthorizationService
+        - STATUS: String
+        - courseRepository: CourseRepository
+        - classRepository: ClassRepository
+        + classRecCreator(course: Course, code: int, description: String, teacherLecturing: Teacher, duration: int, calStarting: Calendar, calFinishing: Calendar, startingHour: int, startingMin: int, dayOfTheWeek: int, endingHour: int, endingMin: int): ClassRec
+        + classRecCreator(course: Course, code: int, description: String, teacherLecturing: Teacher, duration: int, startingDate: Calendar, finishingDate: Calendar, startingTime: LocalTime, dayOfTheWeek: int, endingTime: LocalTime): ClassRec
+        + course(): Iterable<Course>
+    }
+}
+
+package eapli.base.ClassManagement.domain {
+    class Class {
+        - code: int
+        - description: String
+        - course: Course
+        - dayOfWeek: int
+        - startingTime: LocalTime
+        - endingTime: LocalTime
+        - teacherLecturing: Teacher
+        - duration: int
+        - startingDate: Calendar
+        + Class(course: Course, code: int, description: String, teacherLecturing: Teacher, duration: int, startingDate: Calendar, finishingDate: Calendar, startingTime: LocalTime, endingTime: LocalTime)
+        + sameAs(other: Object): boolean
+        + equals(o: Object): boolean
+        + hashCode(): int
+        + identity(): Integer
+        + changeDurationTo(duration: int): void
+        + currentDuration(): int
+        + dayOfWeek(): int
+        + startingDate(): Calendar
+        + getCode(): int
+        + getDescription(): String
+        + getCourse(): Course
+        + getDayOfWeek(): int
+        + setCode(code: int): void
+        + setDescription(description: String): void
+        + setCourse(course: Course): void
+        + setDayOfWeek(dayOfWeek: int): void
+        + setStartingTime(startingTime: LocalTime): void
+        + setEndingTime(endingTime: LocalTime): void
+        + setTeacherLecturing(teacherLecturing: Teacher): void
+        + setDuration(duration: int): void
+        + setStartingDate(startingDate: Calendar): void
+        + getTeacherLecturing(): Teacher
+        + getDuration(): int
+        + getStartingDate(): Calendar
+        + getStartingTime(): LocalTime
+        + getEndingTime(): LocalTime
+        + toDTO(): ClassDTO
+    }
+
+    class ClassRec extends Class {
+        - finishingDate: Calendar
+        + ClassRec(course: Course, code: int, description: String, teacherLecturing: Teacher, startingDate: Calendar, finishingDate: Calendar, duration: int, startingTime: LocalTime, dayOfWeek: Integer, endingTime: LocalTime)
+        + ClassRec(course: Course, code: int, description: String, teacherLecturing: Teacher, duration: int, startingDate: Calendar, finishingDate: Calendar, startingTime: LocalTime, endingTime: LocalTime)
+        + finishingDate(): Calendar
+    }
+
+    class ClassBuilder {
+        - course: Course
+        - theClass: ClassRec
+        - code: int
+        - description: String
+        - teacherLecturing: Teacher
+        - duration: int
+        - startingDate: Calendar
+        - finishingDate: Calendar
+        - startingTime: LocalTime
+        - dayOfWeek: Integer
+        - endingTime: LocalTime
+        + withCourse(course: Course): ClassBuilder
+        + withCode(code: int): ClassBuilder
+        + withDescription(description: String): ClassBuilder
+        + withTeacherLecturing(teacherLecturing: Teacher): ClassBuilder
+        + withDuration(duration: int): ClassBuilder
+        + withStartingDate(startingDate: Calendar): ClassBuilder
+        + withFinishingDate(finishingDate: Calendar): ClassBuilder
+        + withStartingTime(startingTime: LocalTime): ClassBuilder
+        + withDayOfWeek(dayOfWeek: Integer): ClassBuilder
+        + withEndingTime(endingTime: LocalTime): ClassBuilder
+        + build(): ClassRec
+    }
+
+    class ClassDTO {
+        - code: int
+        - description: String
+        - course: Course
+        - dayOfWeek: int
+        - startingTime: LocalTime
+        - endingTime: LocalTime
+        - teacherLecturing: Teacher
+        - duration: int
+        - startingDate: Calendar
+        + getCode(): int
+        + getDescription(): String
+        + getCourse(): Course
+        + getDayOfWeek(): int
+        + getStartingTime(): LocalTime
+        + getEndingTime(): LocalTime
+        + getTeacherLecturing(): Teacher
+        + getDuration(): int
+        + getStartingDate(): Calendar
+        + ClassDTO(code: int, description: String, course: Course, dayOfWeek: int, startingTime: LocalTime, endingTime: LocalTime, teacherLecturing: Teacher, duration: int, startingDate: Calendar)
+        + ClassDTO(aClass: Class)
+    }
+}
+
+package eapli.base.ClassManagement.repositories {
+    interface ClassRepository {
+        + ofIdentity(id: Integer): Optional<Class>
+        + save(aClass: Class): Class
+        + delete(aClass: Class): void
+    }
+
+    interface CourseRepository {
+        + ofIdentity(id: Integer): Optional<Course>
+        + save(course: Course): Course
+        + delete(course: Course): void
+    }
+}
+
+package eapli.base.ClassManagement.domain {
+    class Course {
+        - code: int
+        - description: String
+        + Course(code: int, description: String)
+        + equals(o: Object): boolean
+        + hashCode(): int
+        + identity(): Integer
+        + getCode(): int
+        + getDescription(): String
+        + setCode(code: int): void
+        + setDescription(description: String): void
+        + toDTO(): CourseDTO
+    }
+
+    class Teacher {
+        - code: int
+        - name: String
+        + Teacher(code: int, name: String)
+        + equals(o: Object): boolean
+        + hashCode(): int
+        + identity(): Integer
+        + getCode(): int
+        + getName(): String
+        + setCode(code: int): void
+        + setName(name: String): void
+        + toDTO(): TeacherDTO
+    }
+
+    class Calendar {
+        - year: int
+        - month: int
+        - day: int
+        + Calendar(year: int, month: int, day: int)
+        + Calendar()
+        + Calendar(date: Date)
+        + Calendar(year: int, month: int, day: int, hour: int, minute: int)
+        + equals(obj: Object): boolean
+        + hashCode(): int
+        + getYear(): int
+        + getMonth(): int
+        + getDay(): int
+        + setYear(year: int): void
+        + setMonth(month: int): void
+        + setDay(day: int): void
+        + toDTO(): CalendarDTO
+    }
+}
+
+package eapli.base.ClassManagement.application {
+    interface ListClassesController {
+        + listAllClasses(): Iterable<Class>
+    }
+
+    interface RegisterClassController {
+        + registerClass(code: int, description: String, course: Course, dayOfWeek: int, startingTime: LocalTime, endingTime: LocalTime, teacherLecturing: Teacher, duration: int, startingDate: Calendar): Class
+    }
+
+    interface RemoveClassController {
+        + removeClass(aClass: Class): void
+    }
+}
+
+eapli.base.ClassManagement.domain "1" -- "0..*" eapli.base.ClassManagement.repositories
+eapli.base.ClassManagement.application "1" -- "0..*" eapli.base.ClassManagement.repositories
+eapli.base.ClassManagement.application "1" -- "1" eapli.base.ClassManagement.domain
+
+@enduml
+

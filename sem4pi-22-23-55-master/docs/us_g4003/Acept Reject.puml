@@ -1,0 +1,60 @@
+@startuml
+Actor User as ma
+participant AceptRejectMeetingUI as ui  <<presentation>>
+participant AceptRejectMeetingController as ctrl <<application>>
+participant Meetings <<domain>>
+participant AuthorizationService <<service>>
+participant ListMeetingsService <<service>>
+database MeetingsRepository<<repository>>
+
+activate ma
+ma -> ui : Acept/Reject meeting
+activate ui
+ui -> AuthorizationService : see logged in user
+
+ui ->ctrl : search my meetings
+activate ctrl
+
+
+ctrl -> ListMeetingsService : get my meetings
+
+
+activate ListMeetingsService
+activate MeetingsRepository
+ListMeetingsService -> MeetingsRepository : get my meetings
+MeetingsRepository -> ListMeetingsService : meeting list
+deactivate MeetingsRepository
+ListMeetingsService -> ctrl : meeting list
+deactivate ListMeetingsService
+ctrl -> ui : meeting list
+deactivate ctrl
+ui -> ma : show meeting list
+deactivate ui
+ma -> ui  : choose meeting to acept/reject
+activate ui
+ui -> ctrl : aceptRejectMeeting(Meeting, inviteStatus ,systemUser)
+activate ctrl
+ctrl -> Meetings : aceptRejectMeeting(inviteStatus, systemUser)
+alt : acept
+ctrl -> ListMeetingsService : overlap(meeting, systemUser)
+opt : overlap
+ListMeetingsService -> Meetings : aceptRejectMeeting(meetings, systemUser)
+
+activate Meetings
+Meetings -> ListMeetingsService : Meeting
+activate ListMeetingsService
+deactivate Meetings
+ListMeetingsService -> MeetingsRepository : save(Meeting)
+deactivate ListMeetingsService
+end
+end
+ctrl -> MeetingsRepository : save(Meeting)
+activate MeetingsRepository
+MeetingsRepository -> ctrl : Return Meeting
+deactivate MeetingsRepository
+ctrl -> ui : meeting acepted/rejected
+deactivate ctrl
+ui -> ma : meeting acepted/rejected
+deactivate ui
+deactivate ma
+@enduml

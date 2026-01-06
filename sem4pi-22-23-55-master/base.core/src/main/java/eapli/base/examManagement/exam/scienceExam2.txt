@@ -1,0 +1,45 @@
+Exam: Science Quiz
+Code: SCI123
+TotalMarks: 200
+PassingMarks: 100
+Duration: 60 minutes
+
+
+Section: Physics
+Marks: 60
+Questions:
+
+Question Type: Multiple Choice
+1. Which of the following is an example of a scalar quantity?
+a. Velocity
+b. Force
+c. Mass
+d. Acceleration
+
+Question Type: True or False
+2. True or False: Sound waves require a medium to travel through.
+
+
+
+Section: Chemistry
+Marks: 60
+Questions:
+
+Question Type: Text Answer
+1. What is the chemical symbol for gold?
+
+
+Question Type: Multiple Choice
+2. True or False: An acid turns blue litmus paper red.
+
+
+
+Section: Biology
+Marks: 80
+Questions:
+
+Question Type: Text Answer
+1. What is the largest organ in the human body?
+
+Question Type: True or False
+2. True or False: Mitochondria are the powerhouse of the cell.

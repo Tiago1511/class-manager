@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title US2005 System Sequence Diagram (SSD) - Alternative One
+
+autonumber
+
+actor "Student" as User
+participant ":System" as System
+
+activate User
+
+ User -> System : asks to view grades
+    activate System
+
+    System -> User: shows list of courses\n and asks to select
+    deactivate System
+
+    User -> System : selects course
+    activate System
+
+
+
+    System -> User:shows students grades
+    deactivate System
+
+
+
+
+
+
+
+
+
+
+@enduml
